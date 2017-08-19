@@ -13,10 +13,7 @@ module MBScore_interrupt_ctrl(
 
     reg [`INT_SEL_WIDTH-1:0]      int_vec_r;
 
-    always @(negedge clk or negedge rst_n)
-    if(!rst_n)
-    stop = 1'b0;
-    else
+    always @(int_vec)
     if(int_vec && !int_en_n)
     begin
         int_vec_r   = int_vec;

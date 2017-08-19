@@ -92,5 +92,5 @@
 `define INT_UART_ADDR        0
 `define INT_STORAGE_ADDR     0
 `define INT_ETHERNET_ADDR    0
-`define INT_CF_ADDR          0
+`define INT_CF_ADDR          `ADDR_WIDTH'd16
 `define INT_SYSCALL_ADDR     `ADDR_WIDTH'd12
