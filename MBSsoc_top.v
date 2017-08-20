@@ -9,9 +9,12 @@ module MBSsoc_top(
 /***********************/
 );
 
-    wire [`DATA_WIDTH-1:0]        data_bus;
-    wire [`ADDR_WIDTH-1:0]        addr_bus;
-    wire [`CTRL_BUS_WIDTH-1:0]    ctrl_bus;
+    wire [`DATA_WIDTH-1:0]          data_bus;
+    wire [`ADDR_WIDTH-1:0]          addr_bus;
+    wire [`CTRL_BUS_WIDTH-1:0]      ctrl_bus;
+
+    wire [`CORE_NUM-1:0]            int_num;
+    wire [`CORE_NUM-1:0]            int_able;
 
 /********DEBUG***********/
     assign data_bus_out = data_bus;
@@ -19,13 +22,26 @@ module MBSsoc_top(
     assign ctrl_bus_out = ctrl_bus;
 /***********************/
 
-    MBScore_cpu_top CPU(
+    MBScore_cpu_top CPU0(
         .clk(clk),
         .rst_n(rst_n),
         .data_bus(data_bus),
         .addr_bus(addr_bus),
         .ctrl_bus(ctrl_bus),
-        .inst_out(inst_out)
+        .int_vec(int_num[0]),
+        .int_able(int_able[0]),
+//        .inst_out(inst_out)
+    );
+
+    MBScore_cpu_top CPU1(
+        .clk(clk),
+        .rst_n(rst_n),
+        .data_bus(data_bus),
+        .addr_bus(addr_bus),
+        .ctrl_bus(ctrl_bus),
+        .int_vec(int_num[1]),
+        .int_able(int_able[1]),
+//        .inst_out(inst_out)
     );
 
     MBSsoc_ram RAM(
@@ -34,6 +50,16 @@ module MBSsoc_top(
         .ram_re(ctrl_bus[0]),
         .addr(addr_bus),
         .data(data_bus)
+    );
+
+    MBSsoc_apic APIC(
+        .clk(clk),
+        .rst_n(rst_n),
+        .int_vec(),
+        .int_able(int_able),
+        .int_num_out(int_num),
+        .int_ack()
+//        .int
     );
 
 endmodule

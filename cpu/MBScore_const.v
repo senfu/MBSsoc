@@ -29,6 +29,8 @@
 `define OPCODE_JAL		6'b000011
 `define OPCODE_SPECIAL	6'b010000
 `define OPCODE_HLT		6'b111111
+`define OPCODE_LDREX    6'b100000
+`define OPCODE_STREX    6'b100001
 
 `define FUNCT_JR		6'b001000
 `define FUNCT_ADD		6'b100000
@@ -94,3 +96,5 @@
 `define INT_ETHERNET_ADDR    0
 `define INT_CF_ADDR          `ADDR_WIDTH'd16
 `define INT_SYSCALL_ADDR     `ADDR_WIDTH'd12
+
+`define CORE_NUM             2

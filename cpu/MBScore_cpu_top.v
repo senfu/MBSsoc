@@ -3,8 +3,10 @@
 module MBScore_cpu_top(
     input                           clk,rst_n,
     inout  [`DATA_WIDTH-1:0]        data_bus,
+    input                           int_vec,
     output [`ADDR_WIDTH-1:0]        addr_bus,
     output [`CTRL_BUS_WIDTH-1:0]    ctrl_bus,
+    output                          int_able,
 
     output [`DATA_WIDTH-1:0]        inst_out
 );
@@ -38,6 +40,8 @@ module MBScore_cpu_top(
     assign data_addr = rs_data + $signed(inst[15:0]);
 
     assign inst_out = inst;
+
+    assign int_able = int_en_n;
 
     MBScore_bus_ctrl bus_ctrl(
         .clk(bus_clk),
@@ -152,7 +156,7 @@ module MBScore_cpu_top(
     MBScore_interrupt_ctrl int_ctrl(
         .clk(clk),
         .rst_n(rst_n),
-        .int_vec({9'd0,syscall,cf,5'd0}),
+        .int_vec(int_vec),
         .int_en_n(int_en_n),  
         .stop(stop),
         .setINTR(setINTR),
