@@ -12,6 +12,7 @@ module MBSsoc_apic(
     reg [`INT_SEL_WIDTH-1:0]        int_vec_r;
 
     reg [`DATA_WIDTH-1:0]           conf_r;
+    reg [`ADDR_WIDTH-1:0]           cpu0_pc,cpu1_pc;
 
     always @(posedge clk)
     if(int_vec)
@@ -26,7 +27,7 @@ module MBSsoc_apic(
         begin
             if(int_vec_r[`INT_SYSCALL])
             begin
-                int_num_out[1]          <= `INT_SYSCALL;
+                int_num_out[1]        <= `INT_SYSCALL;
                 int_ack[`INT_SYSCALL] <= 1'b1;
             end
             else

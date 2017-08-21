@@ -6,11 +6,13 @@
 `define MEM_LEN         128  //32KB MEM
 `define CTRL_BUS_WIDTH  32
 
-`define IDLE 3'b000
+`define HLT  3'b000
+`define IDLE 3'b110
 `define IF   3'b001
 `define ID   3'b010
 `define EXE  3'b011
 `define WB   3'b100
+`define WAIT 3'b101
 
 `define OPCODE_CALC 	6'b000000
 `define OPCODE_ADDI  	6'b001000
@@ -88,6 +90,7 @@
 `define INT_ETHERNET    4
 `define INT_CF          5
 `define INT_SYSCALL     6
+`define CHANGE_PC       7
 
 `define INT_KEYBOARD_ADDR    0
 `define INT_MOUSE_ADDR       0

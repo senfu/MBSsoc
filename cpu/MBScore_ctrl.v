@@ -4,7 +4,7 @@
 module MBScore_ctrl(
 	input 									clk,
 	input 									rst_n,
-	input									stop,
+	input									stop,pause,
 	input 		[`DATA_WIDTH-1:0] 			inst,
 	output reg								IR_ack,
 	output reg 	[`ALU_SEL_WIDTH-1:0]		alu_sel_a,
@@ -23,6 +23,7 @@ module MBScore_ctrl(
 	output [3:0]							state
 );
 	reg [3:0] curState,nextState;
+	reg [3:0] lastState;
 	assign state = curState;
 
 	assign rs_addr = inst[25:21];
@@ -44,7 +45,7 @@ module MBScore_ctrl(
 
 	always @(negedge clk)
 	begin
-		if( (curState == `EXE || curState == `ID )&& inst[31:26] == `OPCODE_LW)
+		if( (curState == `EXE || curState == `ID) && inst[31:26] == `OPCODE_LW)
 			mem_re = 1'b1;
 		else
 			mem_re = 1'b0;	 
@@ -60,13 +61,19 @@ module MBScore_ctrl(
 	begin
 		if(!rst_n)
 		begin
-			curState <= `IDLE;
+			curState 	<= `IDLE;
 		end
 		else
 		if(stop)
-			curState <= `IDLE;
+			curState 	<= `IDLE;
 		else
-			curState <= nextState;
+		if(pause)
+			curState 	<= `WAIT;
+		begin
+			lastState 	<= curState;
+			curState  	<= nextState;		  
+		end
+
 		
 	end
 	
@@ -79,6 +86,7 @@ module MBScore_ctrl(
 		else
 		begin
 			case(curState)
+				`WAIT:			nextState <= lastState;
 				`IDLE:			nextState <= `IF;
 				`IF: 			nextState <= `ID;
 				`ID:
@@ -99,7 +107,7 @@ module MBScore_ctrl(
 				  				nextState <= `WB;
 				end			
 				`WB: 			nextState <= `IF;
-			default: 			nextState <= `IF;
+			default: 			nextState <= nextState;
 			endcase
 		end
 	end
