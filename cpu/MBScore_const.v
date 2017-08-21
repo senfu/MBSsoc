@@ -6,11 +6,13 @@
 `define MEM_LEN         128  //32KB MEM
 `define CTRL_BUS_WIDTH  32
 
-`define IDLE 3'b000
+`define HLT  3'b000
+`define IDLE 3'b110
 `define IF   3'b001
 `define ID   3'b010
 `define EXE  3'b011
 `define WB   3'b100
+`define WAIT 3'b101
 
 `define OPCODE_CALC 	6'b000000
 `define OPCODE_ADDI  	6'b001000
@@ -29,6 +31,8 @@
 `define OPCODE_JAL		6'b000011
 `define OPCODE_SPECIAL	6'b010000
 `define OPCODE_HLT		6'b111111
+`define OPCODE_LDREX    6'b100000
+`define OPCODE_STREX    6'b100001
 
 `define FUNCT_JR		6'b001000
 `define FUNCT_ADD		6'b100000
@@ -84,13 +88,16 @@
 `define INT_UART        2
 `define INT_STORAGE     3
 `define INT_ETHERNET    4
-`define INT_CF          5
-`define INT_SYSCALL     6
+`define INT_SYSCALL0    6
+`define INT_SYSCALL1    7
 
 `define INT_KEYBOARD_ADDR    0
 `define INT_MOUSE_ADDR       0
 `define INT_UART_ADDR        0
 `define INT_STORAGE_ADDR     0
 `define INT_ETHERNET_ADDR    0
-`define INT_CF_ADDR          `ADDR_WIDTH'd16
-`define INT_SYSCALL_ADDR     `ADDR_WIDTH'd12
+
+`define CORE_NUM             2
+
+`define SYSCODE_WIDTH   20
+`define CHANGE_CPU1_PC  20'b00000000000000000001
