@@ -11,6 +11,7 @@ module MBScore_cpu_top(
     output                          int_able,
     output                          syscall,
     output [`SYSCODE_WIDTH-1:0]     syscall_code,
+    output [2:0]                    state,
 
     output [`DATA_WIDTH-1:0]        inst_out
 );

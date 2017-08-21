@@ -27,9 +27,6 @@ module MBScore_interrupt_ctrl(
     begin
         setINTR      = 1'b1;
 
-        if(int_vec_r == `INT_SYSCALL)
-            int_addr = `INT_SYSCALL_ADDR;
-        else
         if(int_vec_r == `INT_KEYBOARD)
             int_addr = `INT_KEYBOARD_ADDR;
         else
@@ -44,9 +41,6 @@ module MBScore_interrupt_ctrl(
         else
         if(int_vec_r == `INT_ETHERNET)
             int_addr = `INT_ETHERNET_ADDR;
-        else
-        if(int_vec_r == `INT_CF)
-            int_addr = `INT_CF_ADDR;
 
         int_jump     = 1'b1;
     end

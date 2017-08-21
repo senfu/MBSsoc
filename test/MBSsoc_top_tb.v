@@ -6,6 +6,10 @@ module MBSsoc_top_tb();
     wire [31:0] addr_bus;
     wire [31:0] ctrl_bus;
     wire [31:0] inst;
+    wire cpu1_en;
+    wire syscall0;
+    wire [2:0] state0,state1;
+    wire [1:0] cpu_pause;
 
     MBSsoc_top i1(
         .clk(clk),
@@ -13,7 +17,12 @@ module MBSsoc_top_tb();
         .data_bus_out(data_bus),
         .addr_bus_out(addr_bus),
         .ctrl_bus_out(ctrl_bus),
-        .inst_out(inst)
+        .inst_out(inst),
+        .cpu1_en_out(cpu1_en),
+        .syscall0_out(syscall0),
+        .state0(state0),
+        .state1(state1),
+        .cpu_pause_out(cpu_pause)
     );
 
     initial                                                

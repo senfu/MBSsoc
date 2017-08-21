@@ -1,3 +1,4 @@
+`timescale 1ns/1ns
 `include "cpu/MBScore_const.v"
 module MBSsoc_top(
     input clk,rst_n,
@@ -5,7 +6,11 @@ module MBSsoc_top(
     output [`DATA_WIDTH-1:0]        data_bus_out,
     output [`ADDR_WIDTH-1:0]        addr_bus_out,
     output [`CTRL_BUS_WIDTH-1:0]    ctrl_bus_out,
-    output [`DATA_WIDTH-1:0]        inst_out
+    output [`DATA_WIDTH-1:0]        inst_out,
+    output                          cpu1_en_out,
+    output                          syscall0_out,
+    output [2:0]                    state0,state1,
+    output [`CORE_NUM-1:0]          cpu_pause_out
 /***********************/
 );
 
@@ -23,6 +28,10 @@ module MBSsoc_top(
     wire                            cpu1_en;
     wire [`ADDR_WIDTH-1:0]          init_pc_cpu1,init_pc_cpu0;
 
+    assign cpu1_en_out = cpu1_en;
+    assign syscall0_out = syscall0;
+    assign cpu_pause_out = cpu_pause;
+
     reg                             bus_clk;
     always @(clk)
     bus_clk = clk;
@@ -34,6 +43,7 @@ module MBSsoc_top(
 /***********************/
 
     MBScore_cpu_top CPU0(
+        .state(state0),
         .clk(clk),
         .rst_n(rst_n),
         .pause(cpu_pause[0]),
@@ -42,7 +52,7 @@ module MBSsoc_top(
         .ram_re(ctrl_bus[0]),
         .ram_we(ctrl_bus[1]),
         .int_vec(int_num0),
-        .int_able(int_able[0])
+        .int_able(int_able[0]),
         .syscall(syscall0),
         .syscall_code(syscall_code0),
         .init_addr(init_pc_cpu0)
@@ -50,6 +60,7 @@ module MBSsoc_top(
     );
 
     MBScore_cpu_top CPU1(
+        .state(state1),
         .clk(clk),
         .rst_n(~cpu1_en),
         .pause(cpu_pause[1]),
@@ -58,7 +69,7 @@ module MBSsoc_top(
         .ram_re(ctrl_bus[2]),
         .ram_we(ctrl_bus[3]),
         .int_vec(int_num1),
-        .int_able(int_able[1])
+        .int_able(int_able[1]),
         .syscall(syscall1),
         .syscall_code(syscall_code1),
         .init_addr(init_pc_cpu1)

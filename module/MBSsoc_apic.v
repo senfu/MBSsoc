@@ -1,3 +1,4 @@
+`timescale 1ns/1ns
 `include "../cpu/MBScore_const.v"
 module MBSsoc_apic(
     input                           clk,
@@ -15,15 +16,15 @@ module MBSsoc_apic(
     reg [`INT_SEL_WIDTH-1:0]        int_vec_r;
 
     reg [`DATA_WIDTH-1:0]           conf_r;
+    reg [`ADDR_WIDTH-1:0]           cpu1_pc_r = 32'd112;
     reg [`ADDR_WIDTH-1:0]           cpu0_pc_r = 32'd0;
-    reg [`ADDR_WIDTH-1:0]           cpu1_pc_r = 32'd0;
     assign cpu0_pc = cpu0_pc_r;
     assign cpu1_pc = cpu1_pc_r;
 
     reg                             syscall0,syscall1;
     reg [`SYSCODE_WIDTH-1:0]        syscall_code1_r,syscall_code0_r;
 
-    always @(posedge clk)
+    always @(int_vec)
     begin
         int_vec_r <= int_vec;  
         if(int_vec_r[`INT_SYSCALL0] == 1'b1)
@@ -46,9 +47,10 @@ module MBSsoc_apic(
         if(syscall0)
         begin
             case (syscall_code0)
-            CHANGE_CPU1_PC: 
+            `CHANGE_CPU1_PC: 
             begin
-                cpu1_en <= 1'b1;
+                cpu1_en = 1'b1;
+                #1 cpu1_en <= 1'b0;
             end
             endcase
         end
