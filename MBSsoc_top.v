@@ -6,7 +6,6 @@ module MBSsoc_top(
     output [`DATA_WIDTH-1:0]        data_bus_out,
     output [`ADDR_WIDTH-1:0]        addr_bus_out,
     output [`CTRL_BUS_WIDTH-1:0]    ctrl_bus_out,
-    output [`DATA_WIDTH-1:0]        inst_out,
     output                          cpu1_en_out,
     output                          syscall0_out,
     output [2:0]                    state0,state1,
@@ -57,7 +56,6 @@ module MBSsoc_top(
         .syscall(syscall0),
         .syscall_code(syscall_code0),
         .init_addr(init_pc_cpu0)
-//        .inst_out(inst_out)
     );
 
     MBScore_cpu_top CPU1(
@@ -74,7 +72,6 @@ module MBSsoc_top(
         .syscall(syscall1),
         .syscall_code(syscall_code1),
         .init_addr(init_pc_cpu1)
-//        .inst_out(inst_out)
     );
 
     MBSsoc_ram RAM(

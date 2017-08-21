@@ -29,7 +29,7 @@ module MBScore_alu(
         `ALU_OP_EQ:     {cf_r,alu_out_r} <= {1'b0,(alu_in_a == alu_in_b) ? 32'd1 : 32'd0};
         `ALU_OP_NE:     {cf_r,alu_out_r} <= {1'b0,(alu_in_a != alu_in_b) ? 32'd1 : 32'd0};
         `ALU_OP_LT:     {cf_r,alu_out_r} <= {1'b0,( $signed(alu_in_a) < $signed(alu_in_b) ) ? 32'd1 : 32'd0}; 
-        `ALU_OP_LTU:    {cf_r,alu_out_r} <= {1'b0,( $unsigned(alu_in_a) < $unsigned(alu_in_b) ) ? 32'd1 : 32'd0}; 
+        `ALU_OP_LTU:    {cf_r,alu_out_r} <= {1'b0,( alu_in_a < alu_in_b ) ? 32'd1 : 32'd0}; 
         default:        {cf_r,alu_out_r} <= {1'b0,alu_out_r};
         endcase
     end

@@ -174,7 +174,7 @@ module MBScore_ctrl(
 						end
 
 					`OPCODE_ADDI,`OPCODE_ADDIU,`OPCODE_ANDI,`OPCODE_ORI,
-					`OPCODE_XORI,`OPCODE_SLTI,`OPCODE_SLTI:
+					`OPCODE_XORI,`OPCODE_SLTI,`OPCODE_SLTIU:
 						begin
 							alu_sel_a 	<= `ALU_SEL_RS;
 							alu_sel_b 	<= `ALU_SEL_IMM;

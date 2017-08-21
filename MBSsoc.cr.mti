@@ -1,119 +1,110 @@
 D:/lijunyan/MBSsoc/cpu/MBScore_const.v {1 {vlog -work work D:/lijunyan/MBSsoc/cpu/MBScore_const.v
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-Start time: 20:27:23 on Aug 21,2017
+Start time: 21:26:59 on Aug 21,2017
 vlog -reportprogress 300 -work work D:/lijunyan/MBSsoc/cpu/MBScore_const.v 
-End time: 20:27:23 on Aug 21,2017, Elapsed time: 0:00:00
+End time: 21:26:59 on Aug 21,2017, Elapsed time: 0:00:00
 Errors: 0, Warnings: 0
 
-} {} {}} D:/lijunyan/MBSsoc/cpu/MBScore_cpu_top.v {1 {vlog -work work D:/lijunyan/MBSsoc/cpu/MBScore_cpu_top.v
+} {} {}} D:/lijunyan/MBSsoc/MBSsoc_top.v {1 {vlog -work work -stats=none D:/lijunyan/MBSsoc/MBSsoc_top.v
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-Start time: 20:27:23 on Aug 21,2017
-vlog -reportprogress 300 -work work D:/lijunyan/MBSsoc/cpu/MBScore_cpu_top.v 
+-- Compiling module MBSsoc_top
+
+Top level modules:
+	MBSsoc_top
+
+} {} {}} D:/lijunyan/MBSsoc/cpu/MBScore_cpu_top.v {1 {vlog -work work -stats=none D:/lijunyan/MBSsoc/cpu/MBScore_cpu_top.v
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
 -- Compiling module MBScore_cpu_top
 
 Top level modules:
 	MBScore_cpu_top
-End time: 20:27:23 on Aug 21,2017, Elapsed time: 0:00:00
-Errors: 0, Warnings: 0
 
 } {} {}} D:/lijunyan/MBSsoc/cpu/MBScore_IR.v {1 {vlog -work work D:/lijunyan/MBSsoc/cpu/MBScore_IR.v
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-Start time: 20:27:23 on Aug 21,2017
+Start time: 21:27:00 on Aug 21,2017
 vlog -reportprogress 300 -work work D:/lijunyan/MBSsoc/cpu/MBScore_IR.v 
 -- Compiling module MBScore_IR
 
 Top level modules:
 	MBScore_IR
-End time: 20:27:24 on Aug 21,2017, Elapsed time: 0:00:01
+End time: 21:27:00 on Aug 21,2017, Elapsed time: 0:00:00
 Errors: 0, Warnings: 0
 
-} {} {}} D:/lijunyan/MBSsoc/cpu/MBScore_alu_operator_mux.v {1 {vlog -work work D:/lijunyan/MBSsoc/cpu/MBScore_alu_operator_mux.v
+} {} {}} D:/lijunyan/MBSsoc/cpu/MBScore_alu_operator_mux.v {1 {vlog -work work -stats=none D:/lijunyan/MBSsoc/cpu/MBScore_alu_operator_mux.v
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-Start time: 20:27:23 on Aug 21,2017
-vlog -reportprogress 300 -work work D:/lijunyan/MBSsoc/cpu/MBScore_alu_operator_mux.v 
 -- Compiling module MBScore_alu_operator_mux
 
 Top level modules:
 	MBScore_alu_operator_mux
-End time: 20:27:23 on Aug 21,2017, Elapsed time: 0:00:00
-Errors: 0, Warnings: 0
 
 } {} {}} D:/lijunyan/MBSsoc/module/MBSsoc_apic.v {1 {vlog -work work D:/lijunyan/MBSsoc/module/MBSsoc_apic.v
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-Start time: 20:27:24 on Aug 21,2017
+Start time: 21:27:00 on Aug 21,2017
 vlog -reportprogress 300 -work work D:/lijunyan/MBSsoc/module/MBSsoc_apic.v 
 -- Compiling module MBSsoc_apic
 
 Top level modules:
 	MBSsoc_apic
-End time: 20:27:24 on Aug 21,2017, Elapsed time: 0:00:00
+End time: 21:27:00 on Aug 21,2017, Elapsed time: 0:00:00
 Errors: 0, Warnings: 0
 
 } {} {}} D:/lijunyan/MBSsoc/module/MBSsoc_bus_ctrl.v {1 {vlog -work work D:/lijunyan/MBSsoc/module/MBSsoc_bus_ctrl.v
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-Start time: 20:27:24 on Aug 21,2017
+Start time: 21:27:00 on Aug 21,2017
 vlog -reportprogress 300 -work work D:/lijunyan/MBSsoc/module/MBSsoc_bus_ctrl.v 
 -- Compiling module MBSsoc_bus_ctrl
 
 Top level modules:
 	MBSsoc_bus_ctrl
-End time: 20:27:24 on Aug 21,2017, Elapsed time: 0:00:00
+End time: 21:27:00 on Aug 21,2017, Elapsed time: 0:00:00
 Errors: 0, Warnings: 0
 
 } {} {}} D:/lijunyan/MBSsoc/cpu/MBScore_rf.v {1 {vlog -work work D:/lijunyan/MBSsoc/cpu/MBScore_rf.v
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-Start time: 20:27:24 on Aug 21,2017
+Start time: 21:27:00 on Aug 21,2017
 vlog -reportprogress 300 -work work D:/lijunyan/MBSsoc/cpu/MBScore_rf.v 
 -- Compiling module MBScore_rf
 
 Top level modules:
 	MBScore_rf
-End time: 20:27:24 on Aug 21,2017, Elapsed time: 0:00:00
+End time: 21:27:00 on Aug 21,2017, Elapsed time: 0:00:00
 Errors: 0, Warnings: 0
 
 } {} {}} D:/lijunyan/MBSsoc/cpu/MBScore_interrupt_ctrl.v {1 {vlog -work work D:/lijunyan/MBSsoc/cpu/MBScore_interrupt_ctrl.v
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-Start time: 20:27:23 on Aug 21,2017
+Start time: 21:27:00 on Aug 21,2017
 vlog -reportprogress 300 -work work D:/lijunyan/MBSsoc/cpu/MBScore_interrupt_ctrl.v 
 -- Compiling module MBScore_interrupt_ctrl
 
 Top level modules:
 	MBScore_interrupt_ctrl
-End time: 20:27:23 on Aug 21,2017, Elapsed time: 0:00:00
+End time: 21:27:00 on Aug 21,2017, Elapsed time: 0:00:00
 Errors: 0, Warnings: 0
+
+} {} {}} D:/lijunyan/MBSsoc/cpu/MBScore_alu.v {1 {vlog -work work -stats=none D:/lijunyan/MBSsoc/cpu/MBScore_alu.v
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module MBScore_alu
+
+Top level modules:
+	MBScore_alu
 
 } {} {}} D:/lijunyan/MBSsoc/module/MBSsoc_ram.v {1 {vlog -work work D:/lijunyan/MBSsoc/module/MBSsoc_ram.v
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-Start time: 20:27:24 on Aug 21,2017
+Start time: 21:27:00 on Aug 21,2017
 vlog -reportprogress 300 -work work D:/lijunyan/MBSsoc/module/MBSsoc_ram.v 
 -- Compiling module MBSsoc_ram
 
 Top level modules:
 	MBSsoc_ram
-End time: 20:27:24 on Aug 21,2017, Elapsed time: 0:00:00
+End time: 21:27:00 on Aug 21,2017, Elapsed time: 0:00:00
 Errors: 0, Warnings: 0
 
-} {} {}} D:/lijunyan/MBSsoc/cpu/MBScore_alu.v {1 {vlog -work work D:/lijunyan/MBSsoc/cpu/MBScore_alu.v
+} {} {}} D:/lijunyan/MBSsoc/test/MBSsoc_top_tb.v {1 {vlog -work work -stats=none D:/lijunyan/MBSsoc/test/MBSsoc_top_tb.v
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-Start time: 20:27:23 on Aug 21,2017
-vlog -reportprogress 300 -work work D:/lijunyan/MBSsoc/cpu/MBScore_alu.v 
--- Compiling module MBScore_alu
-
-Top level modules:
-	MBScore_alu
-End time: 20:27:23 on Aug 21,2017, Elapsed time: 0:00:00
-Errors: 0, Warnings: 0
-
-} {} {}} D:/lijunyan/MBSsoc/test/MBSsoc_top_tb.v {1 {vlog -work work D:/lijunyan/MBSsoc/test/MBSsoc_top_tb.v
-Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-Start time: 20:27:24 on Aug 21,2017
-vlog -reportprogress 300 -work work D:/lijunyan/MBSsoc/test/MBSsoc_top_tb.v 
 -- Compiling module MBSsoc_top_tb
 
 Top level modules:
 	MBSsoc_top_tb
-End time: 20:27:24 on Aug 21,2017, Elapsed time: 0:00:00
-Errors: 0, Warnings: 0
 
 } {} {}} D:/lijunyan/MBSsoc/cpu/MBScore_ctrl.v {1 {vlog -work work -stats=none D:/lijunyan/MBSsoc/cpu/MBScore_ctrl.v
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
@@ -124,13 +115,13 @@ Top level modules:
 
 } {} {}} D:/lijunyan/MBSsoc/cpu/MBScore_bus_ctrl.v {1 {vlog -work work D:/lijunyan/MBSsoc/cpu/MBScore_bus_ctrl.v
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-Start time: 20:27:23 on Aug 21,2017
+Start time: 21:26:59 on Aug 21,2017
 vlog -reportprogress 300 -work work D:/lijunyan/MBSsoc/cpu/MBScore_bus_ctrl.v 
 -- Compiling module MBScore_bus_ctrl
 
 Top level modules:
 	MBScore_bus_ctrl
-End time: 20:27:23 on Aug 21,2017, Elapsed time: 0:00:00
+End time: 21:26:59 on Aug 21,2017, Elapsed time: 0:00:00
 Errors: 0, Warnings: 0
 
 } {} {}}

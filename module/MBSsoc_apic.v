@@ -16,8 +16,8 @@ module MBSsoc_apic(
     reg [`INT_SEL_WIDTH-1:0]        int_vec_r;
 
     reg [`DATA_WIDTH-1:0]           conf_r;
-    reg [`ADDR_WIDTH-1:0]           cpu1_pc_r = 32'd112;
-    reg [`ADDR_WIDTH-1:0]           cpu0_pc_r = 32'd0;
+    reg [`ADDR_WIDTH-1:0]           cpu0_pc_r = 32'd112;
+    reg [`ADDR_WIDTH-1:0]           cpu1_pc_r = 32'd0;
     assign cpu0_pc = cpu0_pc_r;
     assign cpu1_pc = cpu1_pc_r;
 

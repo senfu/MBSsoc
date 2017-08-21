@@ -18,7 +18,6 @@ module MBSsoc_top_tb();
         .data_bus_out(data_bus),
         .addr_bus_out(addr_bus),
         .ctrl_bus_out(ctrl_bus),
-        .inst_out(inst),
         .cpu1_en_out(cpu1_en),
         .syscall0_out(syscall0),
         .state0(state0),
