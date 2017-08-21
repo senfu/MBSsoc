@@ -11,7 +11,7 @@ module MBScore_interrupt_ctrl(
     output reg                      int_jump
 );
 
-    reg [`INT_SEL_WIDTH-1:0]      int_vec_r;
+    reg                             int_vec_r;
 
     always @(int_vec)
     if(int_vec && !int_en_n)
@@ -27,26 +27,20 @@ module MBScore_interrupt_ctrl(
     begin
         setINTR      = 1'b1;
 
-        if(int_vec_r[`INT_KEYBOARD])
+        if(int_vec_r == `INT_KEYBOARD)
             int_addr = `INT_KEYBOARD_ADDR;
         else
-        if(int_vec_r[`INT_MOUSE])
+        if(int_vec_r == `INT_MOUSE)
             int_addr = `INT_MOUSE_ADDR;
         else
-        if(int_vec_r[`INT_UART])
+        if(int_vec_r == `INT_UART)
             int_addr = `INT_UART_ADDR;
         else
-        if(int_vec_r[`INT_STORAGE])
+        if(int_vec_r == `INT_STORAGE)
             int_addr = `INT_STORAGE_ADDR;
         else
-        if(int_vec_r[`INT_ETHERNET])
+        if(int_vec_r == `INT_ETHERNET)
             int_addr = `INT_ETHERNET_ADDR;
-        else
-        if(int_vec_r[`INT_CF])
-            int_addr = `INT_CF_ADDR;
-        else
-        if(int_vec_r[`INT_SYSCALL])
-            int_addr = `INT_SYSCALL_ADDR;
 
         int_jump     = 1'b1;
     end

@@ -4,7 +4,7 @@
 module MBScore_ctrl(
 	input 									clk,
 	input 									rst_n,
-	input									stop,
+	input									stop,pause,
 	input 		[`DATA_WIDTH-1:0] 			inst,
 	output reg								IR_ack,
 	output reg 	[`ALU_SEL_WIDTH-1:0]		alu_sel_a,
@@ -17,12 +17,13 @@ module MBScore_ctrl(
 	output reg								reg_we,spr_sel,pc_we,
 	output 		[`IMM_WIDTH-1:0]			imm,
 	output reg								JAL_or_J,BEQ_or_BNE,JR,hlt,next,LUI,
-	output reg								mem_we,mem_re,mem_to_reg_we,
+	output reg								mem_we,mem_re,mem_to_reg_we,inst_re,
 	output reg								syscall,
 	output reg								rf_clk,bus_clk,
 	output [3:0]							state
 );
 	reg [3:0] curState,nextState;
+	reg [3:0] lastState;
 	assign state = curState;
 
 	assign rs_addr = inst[25:21];
@@ -42,9 +43,10 @@ module MBScore_ctrl(
 	end
 
 
-	always @(negedge clk)
+	always @(clk or nextState)
+	if(!clk)
 	begin
-		if( (curState == `EXE || curState == `ID )&& inst[31:26] == `OPCODE_LW)
+		if( curState == `ID && inst[31:26] == `OPCODE_LW)
 			mem_re = 1'b1;
 		else
 			mem_re = 1'b0;	 
@@ -53,6 +55,11 @@ module MBScore_ctrl(
 			mem_we = 1'b1;
 		else
 			mem_we = 1'b0;
+		
+		if( nextState == `IF)
+			inst_re = 1'b1;
+		else
+			inst_re = 1'b0;
 	end
 
 
@@ -60,25 +67,21 @@ module MBScore_ctrl(
 	begin
 		if(!rst_n)
 		begin
-			curState <= `IDLE;
+			curState 	<= `WAIT;
 		end
 		else
 		if(stop)
-			curState <= `IDLE;
+			curState 	<= `IDLE;
 		else
-			curState <= nextState;
-		
+			curState  	<= nextState;		  
 	end
 	
-	always @(curState or inst)
+	always @(curState or inst or pause)
 	begin
-		if(!rst_n)
-		begin
-			nextState <= `IF;
-		end
-		else
-		begin
+			if(pause)			nextState <= curState;
+			else
 			case(curState)
+				`WAIT:			nextState <= `IDLE;
 				`IDLE:			nextState <= `IF;
 				`IF: 			nextState <= `ID;
 				`ID:
@@ -99,9 +102,8 @@ module MBScore_ctrl(
 				  				nextState <= `WB;
 				end			
 				`WB: 			nextState <= `IF;
-			default: 			nextState <= `IF;
+			default: 			nextState <= nextState;
 			endcase
-		end
 	end
 	
 	always @(curState)
@@ -172,7 +174,7 @@ module MBScore_ctrl(
 						end
 
 					`OPCODE_ADDI,`OPCODE_ADDIU,`OPCODE_ANDI,`OPCODE_ORI,
-					`OPCODE_XORI,`OPCODE_SLTI,`OPCODE_SLTI:
+					`OPCODE_XORI,`OPCODE_SLTI,`OPCODE_SLTIU:
 						begin
 							alu_sel_a 	<= `ALU_SEL_RS;
 							alu_sel_b 	<= `ALU_SEL_IMM;

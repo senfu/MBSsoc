@@ -17,6 +17,11 @@ module MBScore_bus_ctrl(
 
     reg [`DATA_WIDTH-1:0]       data_r;
     assign data     = (ram_we == 1'b1) ? data_wr : `DATA_WIDTH'bz;
-    assign data_rd  = data;
+
+    always @(data)
+    if(ram_re)
+    data_r = data;
+    
+    assign data_rd  = data_r;
 
 endmodule
