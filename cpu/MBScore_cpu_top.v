@@ -3,13 +3,14 @@
 module MBScore_cpu_top(
     input                           clk,rst_n,
     inout  [`DATA_WIDTH-1:0]        data_bus,
-    input                           int_vec,
+    input  [`INT_SEL_WIDTH-1:0]     int_vec,
     input                           pause,
+    input  [`ADDR_WIDTH-1:0]        init_addr,
     output [`ADDR_WIDTH-1:0]        addr_bus,
     output                          ram_re,ram_we,
     output                          int_able,
     output                          syscall,
-    output [19:0]                   syscall_code,
+    output [`SYSCODE_WIDTH-1:0]     syscall_code,
 
     output [`DATA_WIDTH-1:0]        inst_out
 );
@@ -37,12 +38,13 @@ module MBScore_cpu_top(
     wire [`DATA_WIDTH-1:0]      spr_temp;
     wire                        data_mem_re;
     wire                        rf_clk,bus_clk;
+    wire                        inst_re;
 
     wire [`DATA_WIDTH-1:0]      data_from_bus;
     wire [`ADDR_WIDTH-1:0]      inst_addr,data_addr;
     assign data_addr    = rs_data + $signed(inst[15:0]);
     assign inst_out     = inst;
-    assign int_able     = int_en_n;
+    assign int_able     = ~int_en_n;
     assign syscall_code = inst[25:6];
 
     MBScore_bus_ctrl bus_ctrl(
@@ -50,7 +52,7 @@ module MBScore_cpu_top(
         .inst_addr(inst_addr),
         .data_addr(data_addr),
         .data_sel(data_mem_re | data_mem_we),
-        .inst_re(IR_ack),
+        .inst_re(inst_re),
         .data_re(data_mem_re),
         .data_we(data_mem_we),
         .addr(addr_bus),
@@ -85,6 +87,7 @@ module MBScore_cpu_top(
         .pc_we(pc_we),
         .mem_we(data_mem_we),
         .mem_re(data_mem_re),
+        .inst_re(inst_re),
         .mem_to_reg_we(mem_to_reg_we),
         .LUI(LUI),
         .stop(stop),
@@ -109,7 +112,8 @@ module MBScore_cpu_top(
 	    .inst_in(data_from_bus),
 	    .inst_out(inst),
 	    .pc_out(inst_addr),
-        .int_jump(int_jump)
+        .int_jump(int_jump),
+        .init_addr(init_addr)
     );
 
     MBScore_rf rf(

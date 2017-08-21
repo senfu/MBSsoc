@@ -17,7 +17,7 @@ module MBScore_ctrl(
 	output reg								reg_we,spr_sel,pc_we,
 	output 		[`IMM_WIDTH-1:0]			imm,
 	output reg								JAL_or_J,BEQ_or_BNE,JR,hlt,next,LUI,
-	output reg								mem_we,mem_re,mem_to_reg_we,
+	output reg								mem_we,mem_re,mem_to_reg_we,inst_re,
 	output reg								syscall,
 	output reg								rf_clk,bus_clk,
 	output [3:0]							state
@@ -43,9 +43,10 @@ module MBScore_ctrl(
 	end
 
 
-	always @(negedge clk)
+	always @(clk or nextState)
+	if(!clk)
 	begin
-		if( (curState == `EXE || curState == `ID) && inst[31:26] == `OPCODE_LW)
+		if( curState == `ID && inst[31:26] == `OPCODE_LW)
 			mem_re = 1'b1;
 		else
 			mem_re = 1'b0;	 
@@ -54,6 +55,11 @@ module MBScore_ctrl(
 			mem_we = 1'b1;
 		else
 			mem_we = 1'b0;
+		
+		if( nextState == `IF)
+			inst_re = 1'b1;
+		else
+			inst_re = 1'b0;
 	end
 
 
@@ -73,8 +79,6 @@ module MBScore_ctrl(
 			lastState 	<= curState;
 			curState  	<= nextState;		  
 		end
-
-		
 	end
 	
 	always @(curState or inst)

@@ -88,16 +88,16 @@
 `define INT_UART        2
 `define INT_STORAGE     3
 `define INT_ETHERNET    4
-`define INT_CF          5
-`define INT_SYSCALL     6
-`define CHANGE_PC       7
+`define INT_SYSCALL0    6
+`define INT_SYSCALL1    7
 
 `define INT_KEYBOARD_ADDR    0
 `define INT_MOUSE_ADDR       0
 `define INT_UART_ADDR        0
 `define INT_STORAGE_ADDR     0
 `define INT_ETHERNET_ADDR    0
-`define INT_CF_ADDR          `ADDR_WIDTH'd16
-`define INT_SYSCALL_ADDR     `ADDR_WIDTH'd12
 
 `define CORE_NUM             2
+
+`define SYSCODE_WIDTH   20
+`define CHANGE_CPU1_PC  20'b00000000000000000001

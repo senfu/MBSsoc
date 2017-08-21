@@ -3,9 +3,9 @@ module MBSsoc_bus_ctrl(
     input                           clk,
     input                           rst_n,
     input [`CTRL_BUS_WIDTH-1:0]     ctrl_bus,
-    input [`ADDR_WIDTH-1:0]         addr_bus0,addr_bus1
+    input [`ADDR_WIDTH-1:0]         addr_bus0,addr_bus1,
 /*CPU总线控制*/
-    output [`CORE_NUM-1:0]          cpu_pause,
+    output reg [`CORE_NUM-1:0]      cpu_pause,
 /************/
 /*RAM*/
     output                          ram_re,ram_we,
@@ -43,4 +43,4 @@ module MBSsoc_bus_ctrl(
         cpu_sel      <= 1'b0;            
     end
 
-    
+endmodule

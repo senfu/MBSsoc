@@ -3,7 +3,7 @@
 module MBScore_interrupt_ctrl(
     input                           clk,
     input                           rst_n,
-    input                           int_vec,
+    input [`INT_SEL_WIDTH-1:0]      int_vec,
     input                           int_en_n,
     output reg                      stop,
     output reg                      setINTR,
@@ -39,13 +39,13 @@ module MBScore_interrupt_ctrl(
         if(int_vec_r == `INT_UART)
             int_addr = `INT_UART_ADDR;
         else
-        if(int_vec_r[`INT_STORAGE])
+        if(int_vec_r == `INT_STORAGE)
             int_addr = `INT_STORAGE_ADDR;
         else
-        if(int_vec_r[`INT_ETHERNET])
+        if(int_vec_r == `INT_ETHERNET)
             int_addr = `INT_ETHERNET_ADDR;
         else
-        if(int_vec_r[`INT_CF])
+        if(int_vec_r == `INT_CF)
             int_addr = `INT_CF_ADDR;
 
         int_jump     = 1'b1;

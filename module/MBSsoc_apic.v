@@ -4,62 +4,86 @@ module MBSsoc_apic(
     input                           rst_n,
     input  [`INT_SEL_WIDTH-1:0]     int_vec,
     input  [`CORE_NUM-1:0]          int_able,
-    output [`CORE_NUM-1:0]          int,
-    output [`CORE_NUM-1:0]          int_num_out,
-    output [`INT_SEL_WIDTH-1:0]     int_ack
+    input  [`SYSCODE_WIDTH-1:0]     syscall_code1,syscall_code0,
+    output reg[`CORE_NUM-1:0]       int,
+    output reg [`INT_SEL_WIDTH-1:0] int_num_out0,int_num_out1,
+    output reg [`INT_SEL_WIDTH-1:0] int_ack,
+    output [`ADDR_WIDTH-1:0]        cpu0_pc,cpu1_pc,
+    output reg                      cpu1_en
 );
 
     reg [`INT_SEL_WIDTH-1:0]        int_vec_r;
 
     reg [`DATA_WIDTH-1:0]           conf_r;
-    reg [`ADDR_WIDTH-1:0]           cpu0_pc,cpu1_pc;
+    reg [`ADDR_WIDTH-1:0]           cpu0_pc_r = 32'd0;
+    reg [`ADDR_WIDTH-1:0]           cpu1_pc_r = 32'd0;
+    assign cpu0_pc = cpu0_pc_r;
+    assign cpu1_pc = cpu1_pc_r;
+
+    reg                             syscall0,syscall1;
+    reg [`SYSCODE_WIDTH-1:0]        syscall_code1_r,syscall_code0_r;
 
     always @(posedge clk)
-    if(int_vec)
+    begin
         int_vec_r <= int_vec;  
-    else
-        int_vec_r <= 0;
+        if(int_vec_r[`INT_SYSCALL0] == 1'b1)
+        begin
+            syscall0 <= 1'b1;
+            syscall_code0_r <= syscall0;
+        end 
+
+        if(int_vec_r[`INT_SYSCALL1] == 1'b1)
+        begin 
+            syscall1 <= 1'b1;  
+            syscall_code1_r <= syscall1;
+        end
+    end
+        
 
     always @(negedge clk)
-    if(int_vec_r)
+    if(int_vec_r || syscall0 || syscall1)
     begin
+        if(syscall0)
+        begin
+            case (syscall_code0)
+            CHANGE_CPU1_PC: 
+            begin
+                cpu1_en <= 1'b1;
+            end
+            endcase
+        end
+
+
         if(int_able[1] && !conf_r[1])
         begin
-            if(int_vec_r[`INT_SYSCALL])
-            begin
-                int_num_out[1]        <= `INT_SYSCALL;
-                int_ack[`INT_SYSCALL] <= 1'b1;
-            end
-            else
             if(int_vec_r[`INT_KEYBOARD])
             begin
-                int_num_out[1]          <= `INT_KEYBOARD;
+                int_num_out1            <= `INT_KEYBOARD;
                 int_ack[`INT_KEYBOARD]  <= 1'b1;
             end
             else
             if(int_vec_r[`INT_MOUSE])
-                int_num_out[1]          <= `INT_MOUSE;
+            begin
+                int_num_out1          <= `INT_MOUSE;
                 int_ack[`INT_MOUSE]     <= 1'b1;
             end
             else
             if(int_vec_r[`INT_UART])
-                int_num_out[1]          <= `INT_UART;
+            begin
+                int_num_out1          <= `INT_UART;
                 int_ack[`INT_UART]      <= 1'b1;
             end
             else
             if(int_vec_r[`INT_STORAGE])
-                int_num_out[1]          <= `INT_STORAGE;
+            begin
+                int_num_out1          <= `INT_STORAGE;
                 int_ack[`INT_STORAGE]   <= 1'b1;
             end
             else
             if(int_vec_r[`INT_ETHERNET])
-                int_num_out[1]          <= `INT_ETHERNET;
+            begin
+                int_num_out1          <= `INT_ETHERNET;
                 int_ack[`INT_ETHERNET]  <= 1'b1;
-            end
-            else
-            if(int_vec_r[`INT_CF])
-                int_num_out[1]          <= `INT_CF;
-                int_ack[`INT_CF]        <= 1'b1;
             end
 
             int[1]                      <= 1'b1;
@@ -67,41 +91,34 @@ module MBSsoc_apic(
         else
         if(int_able[0] && !conf_r[0])
         begin
-            if(int_vec_r[`INT_SYSCALL])
-            begin
-                int_num_out[0]          <= `INT_SYSCALL;
-                int_ack[`INT_SYSCALL] <= 1'b1;
-            end
-            else
             if(int_vec_r[`INT_KEYBOARD])
             begin
-                int_num_out[0]          <= `INT_KEYBOARD;
+                int_num_out0          <= `INT_KEYBOARD;
                 int_ack[`INT_KEYBOARD]  <= 1'b1;
             end
             else
             if(int_vec_r[`INT_MOUSE])
-                int_num_out[0]          <= `INT_MOUSE;
+            begin
+                int_num_out0          <= `INT_MOUSE;
                 int_ack[`INT_MOUSE]     <= 1'b1;
             end
             else
             if(int_vec_r[`INT_UART])
-                int_num_out[0]          <= `INT_UART;
+            begin
+                int_num_out0          <= `INT_UART;
                 int_ack[`INT_UART]      <= 1'b1;
             end
             else
             if(int_vec_r[`INT_STORAGE])
-                int_num_out[0]          <= `INT_STORAGE;
+            begin
+                int_num_out0          <= `INT_STORAGE;
                 int_ack[`INT_STORAGE]   <= 1'b1;
             end
             else
             if(int_vec_r[`INT_ETHERNET])
-                int_num_out[0]          <= `INT_ETHERNET;
+            begin
+                int_num_out0          <= `INT_ETHERNET;
                 int_ack[`INT_ETHERNET]  <= 1'b1;
-            end
-            else
-            if(int_vec_r[`INT_CF])
-                int_num_out[0]          <= `INT_CF;
-                int_ack[`INT_CF]        <= 1'b1;
             end
 
             int[0]                      <= 1'b1;
@@ -109,9 +126,11 @@ module MBSsoc_apic(
     end
     else
     begin
-        int         <= 2'd0;
-        int_num_out <= 2'd0;
-        int_ack     <= `INT_SEL_WIDTH'd0;
+        int             <= 2'd0;
+        int_num_out0    <= `INT_SEL_WIDTH'd0;
+        int_num_out1    <= `INT_SEL_WIDTH'd0;
+        int_ack         <= `INT_SEL_WIDTH'd0;
+        cpu1_en         <= 1'b0;
     end
 
 endmodule

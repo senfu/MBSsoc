@@ -13,11 +13,15 @@ module MBSsoc_top(
     wire [`ADDR_WIDTH-1:0]          addr_bus0,addr_bus1,ram_addr;
     wire [`CTRL_BUS_WIDTH-1:0]      ctrl_bus;
 
-    wire [`CORE_NUM-1:0]            int_num;
+    wire [`INT_SEL_WIDTH-1:0]       int_num0,int_num1;
     wire [`CORE_NUM-1:0]            int_able;
     wire [`CORE_NUM-1:0]            cpu_pause;
 
     wire                            ram_re,ram_we;
+    wire                            syscall0,syscall1;
+    wire [`SYSCODE_WIDTH-1:0]       syscall_code0,syscall_code1;
+    wire                            cpu1_en;
+    wire [`ADDR_WIDTH-1:0]          init_pc_cpu1,init_pc_cpu0;
 
     reg                             bus_clk;
     always @(clk)
@@ -25,7 +29,7 @@ module MBSsoc_top(
 
 /********DEBUG***********/
     assign data_bus_out = data_bus;
-    assign addr_bus_out = addr_bus;
+    assign addr_bus_out = addr_bus0;
     assign ctrl_bus_out = ctrl_bus;
 /***********************/
 
@@ -37,25 +41,27 @@ module MBSsoc_top(
         .addr_bus(addr_bus0),
         .ram_re(ctrl_bus[0]),
         .ram_we(ctrl_bus[1]),
-        .int_vec(int_num[0]),
-        .int_able(int_able[0]),
-//        .syscall(),
-//        .syscall_code()
+        .int_vec(int_num0),
+        .int_able(int_able[0])
+        .syscall(syscall0),
+        .syscall_code(syscall_code0),
+        .init_addr(init_pc_cpu0)
 //        .inst_out(inst_out)
     );
 
     MBScore_cpu_top CPU1(
         .clk(clk),
-//        .rst_n(rst_n),
+        .rst_n(~cpu1_en),
         .pause(cpu_pause[1]),
         .data_bus(data_bus),
         .addr_bus(addr_bus1),
         .ram_re(ctrl_bus[2]),
         .ram_we(ctrl_bus[3]),
-        .int_vec(int_num[1]),
-        .int_able(int_able[1]),
-//        .syscall(),
-//        .syscall_code()
+        .int_vec(int_num1),
+        .int_able(int_able[1])
+        .syscall(syscall1),
+        .syscall_code(syscall_code1),
+        .init_addr(init_pc_cpu1)
 //        .inst_out(inst_out)
     );
 
@@ -70,9 +76,15 @@ module MBSsoc_top(
     MBSsoc_apic APIC(
         .clk(clk),
         .rst_n(rst_n),
-        .int_vec(),
+        .int_vec({8'd0,syscall1,syscall0,1'b0,5'd0}),
         .int_able(int_able),
-        .int_num_out(int_num),
+        .int_num_out0(int_num0),
+        .int_num_out1(int_num1),
+        .syscall_code1(syscall_code1),
+        .syscall_code0(syscall_code0),
+        .cpu0_pc(init_pc_cpu0),
+        .cpu1_pc(init_pc_cpu1),
+        .cpu1_en(cpu1_en)
 //        .int_ack()
 //        .int
     );

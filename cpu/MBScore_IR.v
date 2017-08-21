@@ -9,7 +9,7 @@ module MBScore_IR(
 	input							JR,
 	input							hlt,
 	input							jump,int_jump,
-	input		[`ADDR_WIDTH-1:0]	next_addr,int_addr,
+	input		[`ADDR_WIDTH-1:0]	next_addr,int_addr,init_addr,
 	input  		[`DATA_WIDTH-1:0]	inst_in,
 	output  	[`DATA_WIDTH-1:0]	inst_out,
 	output 		[`DATA_WIDTH-1:0]	pc_out
@@ -26,7 +26,7 @@ module MBScore_IR(
 	if(IR_ack)
 	inst = inst_in;
 
-	always @(negedge clk)
+	always @(negedge clk or negedge rst_n)
 	if(next || int_jump)
 	begin
 		if(hlt == 1'b1)
@@ -46,5 +46,8 @@ module MBScore_IR(
 		else
 		pc = pc + 4;
 	end
-	
+	else
+	if(!rst_n)
+		pc = init_addr;
+
 endmodule
