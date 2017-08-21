@@ -10,7 +10,8 @@ module MBSsoc_top(
     output                          cpu1_en_out,
     output                          syscall0_out,
     output [2:0]                    state0,state1,
-    output [`CORE_NUM-1:0]          cpu_pause_out
+    output [`CORE_NUM-1:0]          cpu_pause_out,
+    output                          cpu_sel_out
 /***********************/
 );
 
@@ -38,7 +39,7 @@ module MBSsoc_top(
 
 /********DEBUG***********/
     assign data_bus_out = data_bus;
-    assign addr_bus_out = addr_bus0;
+    assign addr_bus_out = ram_addr;
     assign ctrl_bus_out = ctrl_bus;
 /***********************/
 
@@ -109,7 +110,8 @@ module MBSsoc_top(
         .cpu_pause(cpu_pause),
         .ram_re(ram_re),
         .ram_we(ram_we),
-        .ram_addr(ram_addr)
+        .ram_addr(ram_addr),
+        .cpu_sel_out(cpu_sel_out)
     );
 
 endmodule

@@ -67,30 +67,21 @@ module MBScore_ctrl(
 	begin
 		if(!rst_n)
 		begin
-			curState 	<= `IDLE;
+			curState 	<= `WAIT;
 		end
 		else
 		if(stop)
 			curState 	<= `IDLE;
 		else
-			curState  	<= nextState;	
-
-		if(!pause)
-			lastState   <= curState;	  
+			curState  	<= nextState;		  
 	end
 	
 	always @(curState or inst or pause)
 	begin
-		if(!rst_n)
-		begin
-			nextState <= `IF;
-		end
-		else
-		begin
-			if(pause)			nextState <= `WAIT;
+			if(pause)			nextState <= curState;
 			else
 			case(curState)
-				`WAIT:			nextState <= lastState;
+				`WAIT:			nextState <= `IDLE;
 				`IDLE:			nextState <= `IF;
 				`IF: 			nextState <= `ID;
 				`ID:
@@ -113,7 +104,6 @@ module MBScore_ctrl(
 				`WB: 			nextState <= `IF;
 			default: 			nextState <= nextState;
 			endcase
-		end
 	end
 	
 	always @(curState)

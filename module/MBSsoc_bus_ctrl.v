@@ -9,11 +9,13 @@ module MBSsoc_bus_ctrl(
 /************/
 /*RAM*/
     output                          ram_re,ram_we,
-    output [`ADDR_WIDTH-1:0]        ram_addr
+    output [`ADDR_WIDTH-1:0]        ram_addr,
 /**/
+    output cpu_sel_out
 );
 
     reg     cpu_sel;
+    assign  cpu_sel_out = cpu_sel;
     assign  ram_addr = (cpu_sel == 1'b1) ? addr_bus1 : addr_bus0;
     assign  ram_re   = (cpu_sel == 1'b1) ? ctrl_bus[2] : ctrl_bus[0];
     assign  ram_we   = (cpu_sel == 1'b1) ? ctrl_bus[3] : ctrl_bus[1];
