@@ -10,7 +10,9 @@ module MBSsoc_top(
     output                          syscall0_out,
     output [2:0]                    state0,state1,
     output [`CORE_NUM-1:0]          cpu_pause_out,
-    output                          cpu_sel_out
+    output                          cpu_sel_out,
+    output                          cpu0_lock_flag_out,
+    output [31:0]                   lock_addr_out
 /***********************/
 );
 
@@ -31,11 +33,15 @@ module MBSsoc_top(
 
     wire cpu_sel;
 
+    wire cpu0_access_lock,cpu1_access_lock;
+    wire cpu0_lock_flag,cpu1_lock_flag;
+
 
     assign cpu1_en_out = cpu1_en;
     assign syscall0_out = syscall0;
     assign cpu_pause_out = cpu_pause;
     assign cpu_sel_out = cpu_sel;
+    assign cpu0_lock_flag_out = cpu0_lock_flag;
 
     reg                             bus_clk;
     always @(clk)
@@ -61,7 +67,9 @@ module MBSsoc_top(
         .syscall(syscall0),
         .syscall_code(syscall_code0),
         .init_addr(init_pc_cpu0),
-        .cpu_sel(~cpu_sel)
+        .cpu_sel(~cpu_sel),
+        .lock_flag(cpu0_lock_flag),
+        .lock(cpu0_access_lock)
     );
 
     MBScore_cpu_top CPU1(
@@ -78,7 +86,9 @@ module MBSsoc_top(
         .syscall(syscall1),
         .syscall_code(syscall_code1),
         .init_addr(init_pc_cpu1),
-        .cpu_sel(cpu_sel)
+        .cpu_sel(cpu_sel),
+        .lock_flag(cpu1_lock_flag),
+        .lock(cpu1_access_lock)
     );
 
     MBSsoc_ram RAM(
@@ -86,7 +96,8 @@ module MBSsoc_top(
         .ram_we(ctrl_bus[1]),
         .ram_re(ctrl_bus[0]),
         .addr(ram_addr),
-        .data(data_bus)
+        .data(data_bus),
+        .wr_invalid(ctrl_bus[5])
     );
 
     MBSsoc_apic APIC(
@@ -115,7 +126,10 @@ module MBSsoc_top(
         .cpu_pause(cpu_pause),
         .ram_addr(ram_addr),
         .cpu_sel_out(cpu_sel),
-        .ctrl_bus(ctrl_bus)
+        .ctrl_bus(ctrl_bus),
+        .lock({cpu1_access_lock,cpu0_access_lock}),
+        .lock_flag({cpu1_lock_flag,cpu0_lock_flag}),
+        .lock_addr_out(lock_addr_out)
     );
 
 endmodule

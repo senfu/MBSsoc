@@ -1,7 +1,7 @@
 `include "../cpu/MBScore_const.v"
 module MBSsoc_ram(
     input                       clk,
-    input                       ram_we,ram_re,
+    input                       ram_we,ram_re,wr_invalid,
     input [`ADDR_WIDTH-1:0]     addr,
     inout [`DATA_WIDTH-1:0]     data
 );
@@ -17,7 +17,7 @@ module MBSsoc_ram(
     addr_r = addr >> 2;
 
     always @(posedge clk)
-    if(ram_we)
+    if(ram_we && ~wr_invalid)
     ram[addr >> 2] = data;
 
 endmodule

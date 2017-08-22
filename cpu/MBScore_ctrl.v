@@ -20,6 +20,7 @@ module MBScore_ctrl(
 	output reg								mem_we,mem_re,mem_to_reg_we,inst_re,
 	output reg								syscall,
 	output reg								rf_clk,bus_clk,
+	output reg								set_lock_flag,
 	output [3:0]							state
 );
 	reg [3:0] curState,nextState;
@@ -31,8 +32,8 @@ module MBScore_ctrl(
 	assign rd_addr = ( inst[31:26] == `OPCODE_ADDI || inst[31:26] == `OPCODE_ADDIU ||
 						inst[31:26] == `OPCODE_ANDI || inst[31:26] == `OPCODE_SLTI ||
 						inst[31:26] == `OPCODE_SLTIU || inst[31:26] == `OPCODE_ORI ||
-						inst[31:26] == `OPCODE_XORI || inst[31:26] == `OPCODE_LUI ||
-						inst[31:26] == `OPCODE_LW || inst[31:26] == `OPCODE_SW)? inst[20:16] : inst[15:11];
+						inst[31:26] == `OPCODE_XORI || inst[31:26] == `OPCODE_LUI  ||
+						inst[31:26] == `OPCODE_LW || inst[31:26] == `OPCODE_LDREX)? inst[20:16] : inst[15:11];
 	assign imm     = ( inst[31:26] == `OPCODE_CALC && 
 						(inst[5:0] == `FUNCT_SLL || inst[5:0] == `FUNCT_SRA || inst[5:0] == `FUNCT_SRL) ) ? {11'd0,inst[10:6]} : inst[15:0];
 	
@@ -46,12 +47,12 @@ module MBScore_ctrl(
 	always @(clk or nextState)
 	if(!clk)
 	begin
-		if( curState == `ID && inst[31:26] == `OPCODE_LW)
+		if( curState == `ID && (inst[31:26] == `OPCODE_LW || inst[31:26] == `OPCODE_LDREX) )
 			mem_re = 1'b1;
 		else
 			mem_re = 1'b0;	 
 
-		if(curState == `ID && inst[31:26] == `OPCODE_SW)
+		if(curState == `ID && (inst[31:26] == `OPCODE_SW || inst[31:26] == `OPCODE_STREX) )
 			mem_we = 1'b1;
 		else
 			mem_we = 1'b0;
@@ -110,40 +111,42 @@ module MBScore_ctrl(
 	begin
 		if(!rst_n)
 		begin
-			IR_ack		<= 0;
-			alu_sel_a 	<= 0;
-			alu_sel_b	<= 0;
-			alu_op_type <= 0;
-			JAL_or_J	<= 0;
-			BEQ_or_BNE	<= 0;
-			JR			<= 0;
-			hlt			<= 0;
-			next		<= 0;
-			reg_we		<= 0;
-			spr_sel	    <= 0;
-			alu_mux_ack <= 0;
-			pc_we		<= 0;
-			mem_to_reg_we<=0;
-			LUI			<= 0;
-			syscall     <= 0;
+			IR_ack			<= 0;
+			alu_sel_a 		<= 0;
+			alu_sel_b		<= 0;
+			alu_op_type 	<= 0;
+			JAL_or_J		<= 0;
+			BEQ_or_BNE		<= 0;
+			JR				<= 0;
+			hlt				<= 0;
+			next			<= 0;
+			reg_we			<= 0;
+			spr_sel	    	<= 0;
+			alu_mux_ack 	<= 0;
+			pc_we			<= 0;
+			mem_to_reg_we	<= 0;
+			LUI				<= 0;
+			syscall     	<= 0;
+			set_lock_flag	<= 0;
 		end
 		begin
-			IR_ack		<= 0;  
-			alu_sel_a 	<= 0;
-			alu_sel_b	<= 0;
-			alu_op_type <= 0;
-			JAL_or_J	<= 0;
-			BEQ_or_BNE	<= 0;
-			JR			<= 0;
-			hlt			<= 0;
-			next		<= 0;
-			reg_we		<= 0;
-			spr_sel		<= 0;
-			alu_mux_ack <= 0;
-			pc_we		<= 0;
-			mem_to_reg_we<=0;
-			LUI			<= 0;
-			syscall     <= 0;
+			IR_ack			<= 0;  
+			alu_sel_a 		<= 0;
+			alu_sel_b		<= 0;
+			alu_op_type 	<= 0;
+			JAL_or_J		<= 0;
+			BEQ_or_BNE		<= 0;
+			JR				<= 0;
+			hlt				<= 0;
+			next			<= 0;
+			reg_we			<= 0;
+			spr_sel			<= 0;
+			alu_mux_ack 	<= 0;
+			pc_we			<= 0;
+			mem_to_reg_we	<= 0;
+			LUI				<= 0;
+			syscall     	<= 0;
+			set_lock_flag	<= 0;
 
 			if(curState == `IF)
 				IR_ack <= 1'b1;
@@ -242,18 +245,20 @@ module MBScore_ctrl(
 			if(curState == `EXE)
 				begin
 					case(inst[31:26])
-						`OPCODE_JAL     :
-							begin
-								JAL_or_J <= 1'b1;
-								next <= 1'b1;  
-							end
-						
-						`OPCODE_LW		:
+						`OPCODE_JAL:
 						begin
-							mem_to_reg_we <= 1'b1;
+							JAL_or_J <= 1'b1;
+							next 	 <= 1'b1;  
+						end
+						
+						`OPCODE_LW,`OPCODE_LDREX: mem_to_reg_we <= 1'b1;
+						`OPCODE_STREX: 
+						begin
+							reg_we 			<= 1'b1;
+							set_lock_flag 	<= 1'b1;
 						end
 
-						`OPCODE_CALC	:
+						`OPCODE_CALC:
 							begin
 								case(inst[5:0])
 									`FUNCT_ADD				:	alu_op_type <= `ALU_OP_ADD;
@@ -274,7 +279,7 @@ module MBScore_ctrl(
 										JR 	 <= 1'b1;
 										next <= 1'b1;
 									end
-									default:	;
+									default:;
 								endcase
 							end
 						`OPCODE_ADDI 	: alu_op_type <= `ALU_OP_ADD;
@@ -312,13 +317,13 @@ module MBScore_ctrl(
 						if(inst[31:26] == `OPCODE_LUI)
 						LUI     <= 1'b1;
 						
-						if(inst[31:26] != `OPCODE_SW && inst[31:26] != `OPCODE_LW)
+						if(inst[31:26] != `OPCODE_SW && inst[31:26] != `OPCODE_LW && 
+						   inst[31:26] != `OPCODE_LDREX && inst[31:26] != `OPCODE_STREX)
 						begin
 							spr_sel <= 1'b0;
 							reg_we  <= 1'b1;
 						end
 					end
-
 					next <= 1'b1;
 				end
 		end

@@ -7,6 +7,8 @@ module MBScore_cpu_top(
     input                           pause,
     input  [`ADDR_WIDTH-1:0]        init_addr,
     input                           cpu_sel,
+    input                           lock_flag,
+    output                          lock,
     output [`ADDR_WIDTH-1:0]        addr_bus,
     output                          ram_re,ram_we,
     output                          int_able,
@@ -42,10 +44,12 @@ module MBScore_cpu_top(
 
     wire [`DATA_WIDTH-1:0]      data_from_bus;
     wire [`ADDR_WIDTH-1:0]      inst_addr,data_addr;
-    assign data_addr    = rs_data + $signed(inst[15:0]);
+    assign data_addr    = (inst[31:26] == `OPCODE_LW || inst[31:26] == `OPCODE_SW) ? rs_data + $signed(inst[15:0]) : rs_data;
     assign inst_out     = inst;
     assign int_able     = ~int_en_n;
     assign syscall_code = inst[25:6];
+
+    assign lock = ((inst[31:26] == `OPCODE_STREX || inst[31:26] == `OPCODE_LDREX) && (~inst_re) )? 1'b1 : 1'b0;
 
     MBScore_bus_ctrl bus_ctrl(
         .clk(bus_clk),
@@ -126,7 +130,7 @@ module MBScore_cpu_top(
         .reg_we(reg_we),
         .mem_to_reg_we(mem_to_reg_we),
         .spr_sel(spr_sel),
-        .alu_data_in(alu_out),
+        .alu_data_in( (inst[31:26] == `OPCODE_STREX ) ? {31'b0,lock_flag} : alu_out ),
         .mem_data_in(data_from_bus),
         .rs_out(rs_data),
         .rt_out(rt_data),

@@ -11,6 +11,8 @@ module MBSsoc_top_tb();
     wire [2:0] state0,state1;
     wire [1:0] cpu_pause;
     wire cpu_sel;
+    wire cpu0_lock_flag;
+    wire [31:0] lock_addr;
 
     MBSsoc_top i1(
         .clk(clk),
@@ -23,7 +25,9 @@ module MBSsoc_top_tb();
         .state0(state0),
         .state1(state1),
         .cpu_pause_out(cpu_pause),
-        .cpu_sel_out(cpu_sel)
+        .cpu_sel_out(cpu_sel),
+        .cpu0_lock_flag_out(cpu0_lock_flag),
+        .lock_addr_out(lock_addr)
     );
 
     initial                                                
