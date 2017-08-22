@@ -6,7 +6,8 @@ module MBSsoc_apic(
     input  [`INT_SEL_WIDTH-1:0]     int_vec,
     input  [`CORE_NUM-1:0]          int_able,
     input  [`SYSCODE_WIDTH-1:0]     syscall_code1,syscall_code0,
-    output reg[`CORE_NUM-1:0]       int,
+    input  [2:0]                    ctrl_in,
+    input  [`DATA_WIDTH-1:0]        data_in,
     output reg [`INT_SEL_WIDTH-1:0] int_num_out0,int_num_out1,
     output reg [`INT_SEL_WIDTH-1:0] int_ack,
     output [`ADDR_WIDTH-1:0]        cpu0_pc,cpu1_pc,
@@ -16,13 +17,23 @@ module MBSsoc_apic(
     reg [`INT_SEL_WIDTH-1:0]        int_vec_r;
 
     reg [`DATA_WIDTH-1:0]           conf_r;
-    reg [`ADDR_WIDTH-1:0]           cpu0_pc_r = 32'd112;
+    reg [`ADDR_WIDTH-1:0]           cpu0_pc_r = 32'd0;
     reg [`ADDR_WIDTH-1:0]           cpu1_pc_r = 32'd0;
     assign cpu0_pc = cpu0_pc_r;
     assign cpu1_pc = cpu1_pc_r;
 
     reg                             syscall0,syscall1;
     reg [`SYSCODE_WIDTH-1:0]        syscall_code1_r,syscall_code0_r;
+
+    always @(posedge clk)
+    case (ctrl_in)
+        3'b001: conf_r    <= data_in; 
+        3'b010: cpu0_pc_r <= data_in;
+        3'b100: cpu1_pc_r <= data_in;
+        default: {conf_r,cpu0_pc_r,cpu1_pc_r} <= {conf_r,cpu0_pc_r,cpu1_pc_r};
+    endcase
+
+
 
     always @(int_vec)
     begin
@@ -49,10 +60,10 @@ module MBSsoc_apic(
             case (syscall_code0)
             `CHANGE_CPU1_PC: 
             begin
-                cpu1_en = 1'b1;
-                #1 cpu1_en <= 1'b0;
+                cpu1_en <= 1'b1;
             end
             endcase
+            syscall0 <= 1'b0; 
         end
 
 
@@ -87,8 +98,6 @@ module MBSsoc_apic(
                 int_num_out1          <= `INT_ETHERNET;
                 int_ack[`INT_ETHERNET]  <= 1'b1;
             end
-
-            int[1]                      <= 1'b1;
         end
         else
         if(int_able[0] && !conf_r[0])
@@ -122,13 +131,10 @@ module MBSsoc_apic(
                 int_num_out0          <= `INT_ETHERNET;
                 int_ack[`INT_ETHERNET]  <= 1'b1;
             end
-
-            int[0]                      <= 1'b1;
         end        
     end
     else
     begin
-        int             <= 2'd0;
         int_num_out0    <= `INT_SEL_WIDTH'd0;
         int_num_out1    <= `INT_SEL_WIDTH'd0;
         int_ack         <= `INT_SEL_WIDTH'd0;

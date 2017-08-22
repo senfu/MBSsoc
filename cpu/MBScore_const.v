@@ -3,8 +3,9 @@
 `define ADDR_WIDTH      32
 `define DATA_WIDTH      32
 `define REG_ADDR_WIDTH  5
-`define MEM_LEN         128  //32KB MEM
+`define MEM_LEN         128
 `define CTRL_BUS_WIDTH  32
+`define RAM_SIZE        33554432     // 2^25 * 8 = 256Mbit
 
 `define HLT  3'b000
 `define IDLE 3'b110
@@ -101,3 +102,10 @@
 
 `define SYSCODE_WIDTH   20
 `define CHANGE_CPU1_PC  20'b00000000000000000001
+
+
+
+`define APIC_CONF_ADDR      `RAM_SIZE
+`define APIC_CPU0_PC_ADDR   `APIC_CONF_ADDR     + 4
+`define APIC_CPU1_PC_ADDR   `APIC_CPU0_PC_ADDR  + 4
+`define UART_DATA_ADDR      `APIC_CONF_ADDR     + 4

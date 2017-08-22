@@ -6,6 +6,7 @@ module MBScore_cpu_top(
     input  [`INT_SEL_WIDTH-1:0]     int_vec,
     input                           pause,
     input  [`ADDR_WIDTH-1:0]        init_addr,
+    input                           cpu_sel,
     output [`ADDR_WIDTH-1:0]        addr_bus,
     output                          ram_re,ram_we,
     output                          int_able,
@@ -59,7 +60,8 @@ module MBScore_cpu_top(
         .data_wr(rt_data),
         .ram_re(ram_re),
         .ram_we(ram_we),
-        .data(data_bus)
+        .data(data_bus),
+        .cpu_sel(cpu_sel)
     );
 
     MBScore_ctrl ctrl(

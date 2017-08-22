@@ -27,10 +27,15 @@ module MBSsoc_top(
     wire [`SYSCODE_WIDTH-1:0]       syscall_code0,syscall_code1;
     wire                            cpu1_en;
     wire [`ADDR_WIDTH-1:0]          init_pc_cpu1,init_pc_cpu0;
+    wire [3:0]                      cpu_ctrl_bus;
+
+    wire cpu_sel;
+
 
     assign cpu1_en_out = cpu1_en;
     assign syscall0_out = syscall0;
     assign cpu_pause_out = cpu_pause;
+    assign cpu_sel_out = cpu_sel;
 
     reg                             bus_clk;
     always @(clk)
@@ -49,13 +54,14 @@ module MBSsoc_top(
         .pause(cpu_pause[0]),
         .data_bus(data_bus),
         .addr_bus(addr_bus0),
-        .ram_re(ctrl_bus[0]),
-        .ram_we(ctrl_bus[1]),
+        .ram_re(cpu_ctrl_bus[0]),
+        .ram_we(cpu_ctrl_bus[1]),
         .int_vec(int_num0),
         .int_able(int_able[0]),
         .syscall(syscall0),
         .syscall_code(syscall_code0),
-        .init_addr(init_pc_cpu0)
+        .init_addr(init_pc_cpu0),
+        .cpu_sel(~cpu_sel)
     );
 
     MBScore_cpu_top CPU1(
@@ -65,19 +71,20 @@ module MBSsoc_top(
         .pause(cpu_pause[1]),
         .data_bus(data_bus),
         .addr_bus(addr_bus1),
-        .ram_re(ctrl_bus[2]),
-        .ram_we(ctrl_bus[3]),
+        .ram_re(cpu_ctrl_bus[2]),
+        .ram_we(cpu_ctrl_bus[3]),
         .int_vec(int_num1),
         .int_able(int_able[1]),
         .syscall(syscall1),
         .syscall_code(syscall_code1),
-        .init_addr(init_pc_cpu1)
+        .init_addr(init_pc_cpu1),
+        .cpu_sel(cpu_sel)
     );
 
     MBSsoc_ram RAM(
         .clk(clk),
-        .ram_we(ram_we),
-        .ram_re(ram_re),
+        .ram_we(ctrl_bus[1]),
+        .ram_re(ctrl_bus[0]),
         .addr(ram_addr),
         .data(data_bus)
     );
@@ -93,22 +100,22 @@ module MBSsoc_top(
         .syscall_code0(syscall_code0),
         .cpu0_pc(init_pc_cpu0),
         .cpu1_pc(init_pc_cpu1),
-        .cpu1_en(cpu1_en)
+        .cpu1_en(cpu1_en),
+        .ctrl_in(ctrl_bus[4:2]),
+        .data_in(data_bus)
 //        .int_ack()
-//        .int
     );
 
     MBSsoc_bus_ctrl BUS_CTRL(
         .clk(bus_clk),
         .rst_n(rst_n),
-        .ctrl_bus(ctrl_bus),
+        .cpu_ctrl_bus(cpu_ctrl_bus),
         .addr_bus0(addr_bus0),
         .addr_bus1(addr_bus1),
         .cpu_pause(cpu_pause),
-        .ram_re(ram_re),
-        .ram_we(ram_we),
         .ram_addr(ram_addr),
-        .cpu_sel_out(cpu_sel_out)
+        .cpu_sel_out(cpu_sel),
+        .ctrl_bus(ctrl_bus)
     );
 
 endmodule
