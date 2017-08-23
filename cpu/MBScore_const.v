@@ -108,4 +108,4 @@
 `define APIC_CONF_ADDR      `RAM_SIZE
 `define APIC_CPU0_PC_ADDR   `APIC_CONF_ADDR     + 4
 `define APIC_CPU1_PC_ADDR   `APIC_CPU0_PC_ADDR  + 4
-`define UART_DATA_ADDR      `APIC_CONF_ADDR     + 4
+`define UART_DATA_ADDR      `APIC_CPU1_PC_ADDR  + 4

@@ -20,6 +20,7 @@ module MBSsoc_bus_ctrl(
     reg    cpu_sel;
     wire   we,re;
     reg    change;
+    reg    uart;
 
     reg apic_conf,apic_cpu0_pc,apic_cpu1_pc,ram_re,ram_we;
     reg [`ADDR_WIDTH-1:0] lock_addr;
@@ -37,18 +38,12 @@ module MBSsoc_bus_ctrl(
     assign ctrl_bus[3] = apic_cpu0_pc;
     assign ctrl_bus[4] = apic_cpu1_pc;
     assign ctrl_bus[5] = ram_wr_invalid;
+    assign ctrl_bus[6] = uart;
 
-    always @(posedge change or negedge rst_n)
+    always @(posedge clk or negedge rst_n)
     if(!rst_n) lock_addr <= 32'hFFFFFFFF;
     else
-    begin
-        ram_re          <= 1'b0;
-        ram_we          <= 1'b0;
-        ram_addr        <= `ADDR_WIDTH'd0;
-        ram_wr_invalid  <= 1'b0;
-        apic_conf       <= 1'b0;
-        apic_cpu0_pc    <= 1'b0;
-        apic_cpu1_pc    <= 1'b0;
+    begin  
         lock_flag       <= 2'b00;
         lock_addr       <= lock_addr;
 
@@ -58,11 +53,26 @@ module MBSsoc_bus_ctrl(
         begin
             if(addr == lock_addr) lock_addr <= 32'hFFFFFFFF;  
             else
-            begin
-                lock_flag[cpu_sel] <= 1'b1;
-                ram_wr_invalid     <= 1'b1;
-            end
-        end
+            lock_flag[cpu_sel] <= 1'b1;
+        end  
+    end
+
+    always @(*)
+    if(lock[cpu_sel] && we && addr != lock_addr)
+        ram_wr_invalid <= 1'b1;
+    else
+        ram_wr_invalid <= 1'b0;
+
+
+    always @(*)
+    begin
+        ram_re          <= 1'b0;
+        ram_we          <= 1'b0;
+        ram_addr        <= `ADDR_WIDTH'd0;
+        apic_conf       <= 1'b0;
+        apic_cpu0_pc    <= 1'b0;
+        apic_cpu1_pc    <= 1'b0;
+        uart            <= 1'b0;
 
         if(addr < 33554432)
         begin
@@ -75,13 +85,12 @@ module MBSsoc_bus_ctrl(
         `APIC_CONF_ADDR:         apic_conf       <= we;
         `APIC_CPU0_PC_ADDR:      apic_cpu0_pc    <= we;
         `APIC_CPU1_PC_ADDR:      apic_cpu1_pc    <= we;
-//        UART_DATA_ADDR:         
+        `UART_DATA_ADDR:         uart            <= we;
         default:;
         endcase
     end
 
-    always @(clk or rst_n)
-    if(~clk)
+    always @(*)
     begin
         if( (cpu_ctrl_bus[0] && cpu_ctrl_bus[2]) || (cpu_ctrl_bus[1] && cpu_ctrl_bus[3]) || 
             (cpu_ctrl_bus[0] && cpu_ctrl_bus[3]) || (cpu_ctrl_bus[1] && cpu_ctrl_bus[2]) )
@@ -106,9 +115,6 @@ module MBSsoc_bus_ctrl(
             cpu_pause    <= 2'b00;
             cpu_sel      <= 1'b0;            
         end
-        change <= 1'b1;
     end
-    else
-        change <= 1'b0;
 
 endmodule

@@ -20,11 +20,8 @@ module MBScore_bus_ctrl(
     assign data     = (ram_we == 1'b1) ? data_wr : `DATA_WIDTH'bz;
 
     always @(data)
-    if(ram_re == 1'b1 && cpu_sel == 1'b1)
-        data_r <= data;
-	else
-        data_r <= data_r;
-	
+    if(ram_re && cpu_sel)
+    data_r = data;
     
     assign data_rd  = data_r;
 

@@ -43,28 +43,30 @@ module MBScore_ctrl(
 		bus_clk <= clk;	  
 	end
 
-	always @(negedge clk)
-	if( curState == `IDLE || next == 1'b1)
-		inst_re <= 1'b1;
-	else
-		inst_re <= 1'b0;
 
-	always @(negedge clk)
-	if( curState == `ID && (inst[31:26] == `OPCODE_LW || inst[31:26] == `OPCODE_LDREX) )
-		mem_re <= 1'b1;
-	else
-		mem_re 	<= 1'b0;
+	always @(clk or nextState)
+	if(!clk)
+	begin
+		if( curState == `ID && (inst[31:26] == `OPCODE_LW || inst[31:26] == `OPCODE_LDREX) )
+			mem_re = 1'b1;
+		else
+			mem_re = 1'b0;	 
 
-	always @(negedge clk)
-	if(curState == `ID && (inst[31:26] == `OPCODE_SW || inst[31:26] == `OPCODE_STREX) )
-		mem_we <= 1'b1;
-	else
-		mem_we <= 1'b0;
+		if(curState == `ID && (inst[31:26] == `OPCODE_SW || inst[31:26] == `OPCODE_STREX) )
+			mem_we = 1'b1;
+		else
+			mem_we = 1'b0;
+		
+		if( nextState == `IF)
+			inst_re = 1'b1;
+		else
+			inst_re = 1'b0;
+	end
 
 
 	always @(posedge clk or negedge rst_n)
 	begin
-		if(rst_n == 1'b0)
+		if(!rst_n)
 		begin
 			curState 	<= `WAIT;
 		end
@@ -77,10 +79,9 @@ module MBScore_ctrl(
 	
 	always @(curState or inst or pause)
 	begin
-			if(pause == 1'b1)	nextState <= curState;
+			if(pause)			nextState <= curState;
 			else
 			case(curState)
-				`HLT:			nextState <= `HLT;
 				`WAIT:			nextState <= `IDLE;
 				`IDLE:			nextState <= `IF;
 				`IF: 			nextState <= `ID;
@@ -107,6 +108,27 @@ module MBScore_ctrl(
 	end
 	
 	always @(curState)
+	begin
+		if(!rst_n)
+		begin
+			IR_ack			<= 0;
+			alu_sel_a 		<= 0;
+			alu_sel_b		<= 0;
+			alu_op_type 	<= 0;
+			JAL_or_J		<= 0;
+			BEQ_or_BNE		<= 0;
+			JR				<= 0;
+			hlt				<= 0;
+			next			<= 0;
+			reg_we			<= 0;
+			spr_sel	    	<= 0;
+			alu_mux_ack 	<= 0;
+			pc_we			<= 0;
+			mem_to_reg_we	<= 0;
+			LUI				<= 0;
+			syscall     	<= 0;
+			set_lock_flag	<= 0;
+		end
 		begin
 			IR_ack			<= 0;  
 			alu_sel_a 		<= 0;
@@ -305,6 +327,7 @@ module MBScore_ctrl(
 					next <= 1'b1;
 				end
 		end
+	end
 
 
 endmodule

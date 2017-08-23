@@ -45,6 +45,7 @@ module MBScore_cpu_top(
     wire [`DATA_WIDTH-1:0]      data_from_bus;
     wire [`ADDR_WIDTH-1:0]      inst_addr,data_addr;
     assign data_addr    = (inst[31:26] == `OPCODE_LW || inst[31:26] == `OPCODE_SW) ? rs_data + $signed(inst[15:0]) : rs_data;
+    assign inst_out     = inst;
     assign int_able     = ~int_en_n;
     assign syscall_code = inst[25:6];
 

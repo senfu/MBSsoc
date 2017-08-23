@@ -2,21 +2,17 @@
 `include "cpu/MBScore_const.v"
 module MBSsoc_top(
     input clk,rst_n,
-    input rs232_rx,
-    output rs232_tx,
-    output tx_en_out
-/*********DEBUG*********
+/*********DEBUG*********/
     output [`DATA_WIDTH-1:0]        data_bus_out,
     output [`ADDR_WIDTH-1:0]        addr_bus_out,
-    output [6:0]                    ctrl_bus_out,
+//    output [`CTRL_BUS_WIDTH-1:0]    ctrl_bus_out,
     output                          cpu1_en_out,
-    output                          syscall0_out,
+//    output                          syscall0_out,
     output [2:0]                    state0,state1,
     output [`CORE_NUM-1:0]          cpu_pause_out,
     output                          cpu_sel_out,
     output                          cpu0_lock_flag_out,
-    output [31:0]                   lock_addr_out,
-    output [7:0]                    tx_data_out,
+//    output [31:0]                   lock_addr_out
 /***********************/
 );
 
@@ -53,8 +49,8 @@ module MBSsoc_top(
 
 /********DEBUG***********/
     assign data_bus_out = data_bus;
-    assign addr_bus_out = addr_bus0;
-    assign ctrl_bus_out = ctrl_bus[6:0];
+    assign addr_bus_out = ram_addr;
+    assign ctrl_bus_out = ctrl_bus;
 /***********************/
 
     MBScore_cpu_top CPU0(
@@ -76,11 +72,10 @@ module MBSsoc_top(
         .lock(cpu0_access_lock)
     );
 
-/*
     MBScore_cpu_top CPU1(
         .state(state1),
         .clk(clk),
-        .rst_n(rst_n),//.rst_n(~cpu1_en),
+        .rst_n(~cpu1_en),
         .pause(cpu_pause[1]),
         .data_bus(data_bus),
         .addr_bus(addr_bus1),
@@ -95,7 +90,6 @@ module MBSsoc_top(
         .lock_flag(cpu1_lock_flag),
         .lock(cpu1_access_lock)
     );
-*/
 
     MBSsoc_ram RAM(
         .clk(clk),
@@ -136,17 +130,6 @@ module MBSsoc_top(
         .lock({cpu1_access_lock,cpu0_access_lock}),
         .lock_flag({cpu1_lock_flag,cpu0_lock_flag}),
         .lock_addr_out(lock_addr_out)
-    );
-
-    my_uart_top UART(
-        .clk(clk),
-        .rst_n(rst_n),
-		.rs232_rx(rs232_rx),
-        .rs232_tx(rs232_tx),
-		.rx_int(~ctrl_bus[6]),
-        .rx_data(data_bus[7:0]),
-        .tx_data_out(tx_data_out),
-        .tx_en_out(tx_en_out)
     );
 
 endmodule

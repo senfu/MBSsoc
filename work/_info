@@ -9,23 +9,23 @@ z2
 cModel Technology
 Z0 dD:/lijunyan/MBSsoc
 vMBScore_alu
-Z1 !s110 1503389168
+Z1 !s110 1503473309
 !i10b 1
-!s100 ]99mfSOz^a@1@h52UjzXa3
-I;==JX5[1bZ8>[R;Qan5^`1
+!s100 Z0jdO<Y_REzSKHT5`OGCD1
+I;>38Uj=5Z0ZTG>8AaC]Me3
 Z2 VDg1SIo80bB@j0V0VzS_@n1
 R0
-Z3 w1503268710
+w1503451665
 8D:/lijunyan/MBSsoc/cpu/MBScore_alu.v
 FD:/lijunyan/MBSsoc/cpu/MBScore_alu.v
 L0 2
-Z4 OV;L;10.5b;63
+Z3 OV;L;10.5b;63
 r1
 !s85 0
 31
-!s108 1503389167.000000
+Z4 !s108 1503473309.000000
 !s107 D:\lijunyan\MBSsoc\cpu\MBScore_const.v|D:/lijunyan/MBSsoc/cpu/MBScore_alu.v|
-!s90 -reportprogress|300|-work|work|D:/lijunyan/MBSsoc/cpu/MBScore_alu.v|
+!s90 -reportprogress|300|-work|work|-stats=none|D:/lijunyan/MBSsoc/cpu/MBScore_alu.v|
 !i113 1
 Z5 o-work work
 Z6 tCvgOpt 0
@@ -37,17 +37,17 @@ R1
 Izib:gcOU[WSa<9>Z4AL<z2
 R2
 R0
-R3
+w1503268710
 8D:/lijunyan/MBSsoc/cpu/MBScore_alu_operator_mux.v
 FD:/lijunyan/MBSsoc/cpu/MBScore_alu_operator_mux.v
 L0 3
-R4
+R3
 r1
 !s85 0
 31
-Z7 !s108 1503389168.000000
+R4
 !s107 D:\lijunyan\MBSsoc\cpu\MBScore_const.v|D:/lijunyan/MBSsoc/cpu/MBScore_alu_operator_mux.v|
-!s90 -reportprogress|300|-work|work|D:/lijunyan/MBSsoc/cpu/MBScore_alu_operator_mux.v|
+!s90 -reportprogress|300|-work|work|-stats=none|D:/lijunyan/MBSsoc/cpu/MBScore_alu_operator_mux.v|
 !i113 1
 R5
 R6
@@ -55,41 +55,41 @@ n@m@b@score_alu_operator_mux
 vMBScore_bus_ctrl
 R1
 !i10b 1
-!s100 j4;HfHPH<aSmiO;8T4L>83
-I2Y2Nh<<1bzmd8bO5IOJkk0
+!s100 FUF3d;O2fMPo[18d[_ldR0
+I^oFlhXjddX;^NU?[EFP;f0
 R2
 R0
-w1503365701
+w1503453613
 8D:/lijunyan/MBSsoc/cpu/MBScore_bus_ctrl.v
 FD:/lijunyan/MBSsoc/cpu/MBScore_bus_ctrl.v
 L0 2
-R4
+R3
 r1
 !s85 0
 31
-R7
+R4
 !s107 D:\lijunyan\MBSsoc\cpu\MBScore_const.v|D:/lijunyan/MBSsoc/cpu/MBScore_bus_ctrl.v|
-!s90 -reportprogress|300|-work|work|D:/lijunyan/MBSsoc/cpu/MBScore_bus_ctrl.v|
+!s90 -reportprogress|300|-work|work|-stats=none|D:/lijunyan/MBSsoc/cpu/MBScore_bus_ctrl.v|
 !i113 1
 R5
 R6
 n@m@b@score_bus_ctrl
 vMBScore_cpu_top
-Z8 !s110 1503392884
+Z7 !s110 1503473310
 !i10b 1
-!s100 X:2Q8lJVDFLhToQ8Nb0Fe3
-IJX3G86GkZWkEPgJXoj4f72
+!s100 zfdmmh2bHTPhD37Sec=852
+IP9VaGWZ1aNAY1lY9CRT5L0
 R2
 R0
-w1503392861
+w1503404396
 8D:/lijunyan/MBSsoc/cpu/MBScore_cpu_top.v
 FD:/lijunyan/MBSsoc/cpu/MBScore_cpu_top.v
 L0 3
-R4
+R3
 r1
 !s85 0
 31
-!s108 1503392883.000000
+Z8 !s108 1503473310.000000
 !s107 D:\lijunyan\MBSsoc\cpu\MBScore_const.v|D:/lijunyan/MBSsoc/cpu/MBScore_cpu_top.v|
 !s90 -reportprogress|300|-work|work|-stats=none|D:/lijunyan/MBSsoc/cpu/MBScore_cpu_top.v|
 !i113 1
@@ -97,21 +97,21 @@ R5
 R6
 n@m@b@score_cpu_top
 vMBScore_ctrl
-Z9 !s110 1503389997
+R7
 !i10b 1
-!s100 nldkNUH4BePlQWiR?oA3g2
-IFE_Yb?bb7moOc9bZLhf_<1
+!s100 MA6;Z<lK0L3na1Od==TH=1
+I><cUY<Q9W6_lQa]fHdhWg1
 R2
 R0
-w1503389927
+w1503459882
 8D:/lijunyan/MBSsoc/cpu/MBScore_ctrl.v
 FD:/lijunyan/MBSsoc/cpu/MBScore_ctrl.v
 L0 4
-R4
+R3
 r1
 !s85 0
 31
-Z10 !s108 1503389997.000000
+R8
 !s107 D:\lijunyan\MBSsoc\cpu\MBScore_const.v|D:/lijunyan/MBSsoc/cpu/MBScore_ctrl.v|
 !s90 -reportprogress|300|-work|work|-stats=none|D:/lijunyan/MBSsoc/cpu/MBScore_ctrl.v|
 !i113 1
@@ -119,65 +119,65 @@ R5
 R6
 n@m@b@score_ctrl
 vMBScore_interrupt_ctrl
-!s110 1503389169
+R7
 !i10b 1
-!s100 92Y6f3hX>1<h7UUO;iz<S0
-I5`E7DW<l3DcR@?7CSTBFI1
+!s100 aG<HR`;bH74L@m=IL4Gb]2
+IoPOOD1SNCb]jG2]SP7ETb0
 R2
 R0
-R3
+w1503403453
 8D:/lijunyan/MBSsoc/cpu/MBScore_interrupt_ctrl.v
 FD:/lijunyan/MBSsoc/cpu/MBScore_interrupt_ctrl.v
 L0 3
-R4
+R3
 r1
 !s85 0
 31
-Z11 !s108 1503389169.000000
+R8
 !s107 D:\lijunyan\MBSsoc\cpu\MBScore_const.v|D:/lijunyan/MBSsoc/cpu/MBScore_interrupt_ctrl.v|
-!s90 -reportprogress|300|-work|work|D:/lijunyan/MBSsoc/cpu/MBScore_interrupt_ctrl.v|
+!s90 -reportprogress|300|-work|work|-stats=none|D:/lijunyan/MBSsoc/cpu/MBScore_interrupt_ctrl.v|
 !i113 1
 R5
 R6
 n@m@b@score_interrupt_ctrl
 vMBScore_IR
-Z12 !s110 1503389170
+R7
 !i10b 1
-!s100 ^94KBNmBmOjTVoj^X8;j^0
-I]P@7Lh5hZiPK=I9mH3E<R2
+!s100 Ra=Wc]145c8cLdbijK1@51
+IFYZDO@J>A_ELCf<D20Sg41
 R2
 R0
-R3
+w1503403017
 8D:/lijunyan/MBSsoc/cpu/MBScore_IR.v
 FD:/lijunyan/MBSsoc/cpu/MBScore_IR.v
 L0 2
-R4
+R3
 r1
 !s85 0
 31
-R11
+R8
 !s107 D:\lijunyan\MBSsoc\cpu\MBScore_const.v|D:/lijunyan/MBSsoc/cpu/MBScore_IR.v|
-!s90 -reportprogress|300|-work|work|D:/lijunyan/MBSsoc/cpu/MBScore_IR.v|
+!s90 -reportprogress|300|-work|work|-stats=none|D:/lijunyan/MBSsoc/cpu/MBScore_IR.v|
 !i113 1
 R5
 R6
 n@m@b@score_@i@r
 vMBScore_rf
-R9
+R7
 !i10b 1
-!s100 `:UVUle4JUQDKWG4W_1`Q1
-I[f<[SXZDS^Xk`fl9QNH633
+!s100 E6?APj;10V3R^>8IoO>[T0
+I620I:J`Q[lC@C=;85mnRH1
 R2
 R0
-w1503389980
+w1503472563
 8D:/lijunyan/MBSsoc/cpu/MBScore_rf.v
 FD:/lijunyan/MBSsoc/cpu/MBScore_rf.v
 L0 2
-R4
+R3
 r1
 !s85 0
 31
-R10
+R8
 !s107 D:\lijunyan\MBSsoc\cpu\MBScore_const.v|D:/lijunyan/MBSsoc/cpu/MBScore_rf.v|
 !s90 -reportprogress|300|-work|work|-stats=none|D:/lijunyan/MBSsoc/cpu/MBScore_rf.v|
 !i113 1
@@ -185,43 +185,43 @@ R5
 R6
 n@m@b@score_rf
 vMBSsoc_apic
-R12
+Z9 !s110 1503473311
 !i10b 1
-!s100 NaBm_O3H9eNKalh4U]3az0
-ID1gKiJL1KI;5<kPXlOJFQ2
+!s100 XijJd;g85dC2Ga]?O:gXo3
+IIMP_na[Gek?>H@IG?8B^X0
 R2
 R0
-w1503372027
+w1503451058
 8D:/lijunyan/MBSsoc/module/MBSsoc_apic.v
 FD:/lijunyan/MBSsoc/module/MBSsoc_apic.v
 L0 3
-R4
+R3
 r1
 !s85 0
 31
-Z13 !s108 1503389170.000000
+Z10 !s108 1503473311.000000
 !s107 D:\lijunyan\MBSsoc\module\..\cpu\MBScore_const.v|D:/lijunyan/MBSsoc/module/MBSsoc_apic.v|
-!s90 -reportprogress|300|-work|work|D:/lijunyan/MBSsoc/module/MBSsoc_apic.v|
+!s90 -reportprogress|300|-work|work|-stats=none|D:/lijunyan/MBSsoc/module/MBSsoc_apic.v|
 !i113 1
 R5
 R6
 n@m@b@ssoc_apic
 vMBSsoc_bus_ctrl
-R8
+R9
 !i10b 1
-!s100 TV3`[TbjzFK^KQmQ?jh3I3
-IUd4RVe=HNAfTa]KjJT:ln0
+!s100 71Ld?mW@6lOdO>RiB><Mh3
+IY=LM0IR_DK2U;Q0bJZAFW0
 R2
 R0
-w1503390927
+w1503473189
 8D:/lijunyan/MBSsoc/module/MBSsoc_bus_ctrl.v
 FD:/lijunyan/MBSsoc/module/MBSsoc_bus_ctrl.v
 L0 2
-R4
+R3
 r1
 !s85 0
 31
-!s108 1503392884.000000
+R10
 !s107 D:\lijunyan\MBSsoc\module\..\cpu\MBScore_const.v|D:/lijunyan/MBSsoc/module/MBSsoc_bus_ctrl.v|
 !s90 -reportprogress|300|-work|work|-stats=none|D:/lijunyan/MBSsoc/module/MBSsoc_bus_ctrl.v|
 !i113 1
@@ -229,43 +229,43 @@ R5
 R6
 n@m@b@ssoc_bus_ctrl
 vMBSsoc_ram
-R12
+R9
 !i10b 1
-!s100 S=lHI`BafFDnU]lB;H;U90
-IK?SCeGQc1Yc[DAa8FcM=^2
+!s100 7o[GFPfBdcjWBnzRjEEc^3
+Ici>=HPLi2APPHAQ7d5[fP0
 R2
 R0
-w1503388940
+w1503448447
 8D:/lijunyan/MBSsoc/module/MBSsoc_ram.v
 FD:/lijunyan/MBSsoc/module/MBSsoc_ram.v
 L0 2
-R4
+R3
 r1
 !s85 0
 31
-R13
+R10
 !s107 D:\lijunyan\MBSsoc\module\..\cpu\MBScore_const.v|D:/lijunyan/MBSsoc/module/MBSsoc_ram.v|
-!s90 -reportprogress|300|-work|work|D:/lijunyan/MBSsoc/module/MBSsoc_ram.v|
+!s90 -reportprogress|300|-work|work|-stats=none|D:/lijunyan/MBSsoc/module/MBSsoc_ram.v|
 !i113 1
 R5
 R6
 n@m@b@ssoc_ram
 vMBSsoc_top
-!s110 1503390589
+Z11 !s110 1503474423
 !i10b 1
-!s100 jhO`DnImjz=U1=0;GZPFj1
-I38B?M4eO?a:z=_06fYH?[2
+!s100 IcZDZ2gja0MJfd=3Sm8EG0
+IBK^oQ0X;G3MoUTah@@Pm03
 R2
 R0
-w1503390575
+w1503474398
 8D:/lijunyan/MBSsoc/MBSsoc_top.v
 FD:/lijunyan/MBSsoc/MBSsoc_top.v
 L0 3
-R4
+R3
 r1
 !s85 0
 31
-!s108 1503390589.000000
+Z12 !s108 1503474423.000000
 !s107 cpu/MBScore_const.v|D:/lijunyan/MBSsoc/MBSsoc_top.v|
 !s90 -reportprogress|300|-work|work|-stats=none|D:/lijunyan/MBSsoc/MBSsoc_top.v|
 !i113 1
@@ -273,24 +273,108 @@ R5
 R6
 n@m@b@ssoc_top
 vMBSsoc_top_tb
-!s110 1503390584
+R11
 !i10b 1
-!s100 @X^2M6TCMVhSVnnj3XROJ2
-Ig:9@=>92QR0QAQOjJ6KQN0
+!s100 0n0Pg?QDVa4aCbbc@e]@m1
+IbM:fP5APN14EBXIeR>Wce2
 R2
 R0
-w1503390579
+w1503474416
 8D:/lijunyan/MBSsoc/test/MBSsoc_top_tb.v
 FD:/lijunyan/MBSsoc/test/MBSsoc_top_tb.v
 L0 2
-R4
+R3
 r1
 !s85 0
 31
-!s108 1503390584.000000
+R12
 !s107 D:/lijunyan/MBSsoc/test/MBSsoc_top_tb.v|
 !s90 -reportprogress|300|-work|work|-stats=none|D:/lijunyan/MBSsoc/test/MBSsoc_top_tb.v|
 !i113 1
 R5
 R6
 n@m@b@ssoc_top_tb
+vmy_uart_rx
+Z13 !s110 1503473312
+!i10b 1
+!s100 0YXoDRXaN^Io;Nk6;W[0;0
+IGHOHaiZFCVK4_SnfKWJb81
+R2
+R0
+w1503470139
+8D:/lijunyan/MBSsoc/module/uart/my_uart_rx.v
+FD:/lijunyan/MBSsoc/module/uart/my_uart_rx.v
+L0 1
+R3
+r1
+!s85 0
+31
+R10
+!s107 D:/lijunyan/MBSsoc/module/uart/my_uart_rx.v|
+!s90 -reportprogress|300|-work|work|-stats=none|D:/lijunyan/MBSsoc/module/uart/my_uart_rx.v|
+!i113 1
+R5
+R6
+vmy_uart_top
+!s110 1503474643
+!i10b 1
+!s100 MDVlHTIHSmOBBaPCOXZb12
+I@D[I579=gF3460ePaegYc0
+R2
+R0
+w1503474636
+8D:/lijunyan/MBSsoc/module/uart/my_uart_top.v
+FD:/lijunyan/MBSsoc/module/uart/my_uart_top.v
+L0 21
+R3
+r1
+!s85 0
+31
+!s108 1503474643.000000
+!s107 D:/lijunyan/MBSsoc/module/uart/my_uart_top.v|
+!s90 -reportprogress|300|-work|work|-stats=none|D:/lijunyan/MBSsoc/module/uart/my_uart_top.v|
+!i113 1
+R5
+R6
+vmy_uart_tx
+!s110 1503474492
+!i10b 1
+!s100 UQinV_Wg`LlOgV?F7nBHe1
+IaBHD7AJ^YR_T=?:G?3Vl;0
+R2
+R0
+w1503474488
+8D:/lijunyan/MBSsoc/module/uart/my_uart_tx.v
+FD:/lijunyan/MBSsoc/module/uart/my_uart_tx.v
+L0 1
+R3
+r1
+!s85 0
+31
+!s108 1503474492.000000
+!s107 D:/lijunyan/MBSsoc/module/uart/my_uart_tx.v|
+!s90 -reportprogress|300|-work|work|-stats=none|D:/lijunyan/MBSsoc/module/uart/my_uart_tx.v|
+!i113 1
+R5
+R6
+vspeed_select
+R13
+!i10b 1
+!s100 cN<P2=nl^IAU5:RSO4_<>0
+I:0FP6Iai`jS9g@1COg6CA2
+R2
+R0
+w1417954607
+8D:/lijunyan/MBSsoc/module/uart/speed_select.v
+FD:/lijunyan/MBSsoc/module/uart/speed_select.v
+L0 1
+R3
+r1
+!s85 0
+31
+!s108 1503473312.000000
+!s107 D:/lijunyan/MBSsoc/module/uart/speed_select.v|
+!s90 -reportprogress|300|-work|work|-stats=none|D:/lijunyan/MBSsoc/module/uart/speed_select.v|
+!i113 1
+R5
+R6

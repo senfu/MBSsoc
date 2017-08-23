@@ -7,7 +7,7 @@ module MBSsoc_ram(
 );
 
     reg [`DATA_WIDTH-1:0] ram [0:`MEM_LEN-1];
-    initial $readmemb("D:/lijunyan/MBSsoc/module/mem.txt",ram);  
+    initial $readmemb("D:/lijunyan/MBSsoc/init/mem_init.txt",ram);  
 
     reg [`ADDR_WIDTH-1:0] addr_r;
 

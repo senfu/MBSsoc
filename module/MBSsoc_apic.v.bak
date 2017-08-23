@@ -11,7 +11,7 @@ module MBSsoc_apic(
     output reg [`INT_SEL_WIDTH-1:0] int_num_out0,int_num_out1,
     output reg [`INT_SEL_WIDTH-1:0] int_ack,
     output [`ADDR_WIDTH-1:0]        cpu0_pc,cpu1_pc,
-    output reg                      cpu1_en,cpu1_stop
+    output reg                      cpu1_en
 );
 
     reg [`INT_SEL_WIDTH-1:0]        int_vec_r;
@@ -37,6 +37,7 @@ module MBSsoc_apic(
 
     always @(int_vec or syscall0_ack or syscall1_ack)
     begin
+                
         syscall0  <= syscall0;
         syscall1  <= syscall1;
         syscall_code0_r <= syscall_code0_r;
@@ -61,17 +62,7 @@ module MBSsoc_apic(
     end
         
 
-    always @(negedge clk or negedge rst_n)
-    if(!rst_n)
-    begin
-        syscall0_ack    <= 1'b0;
-        syscall1_ack    <= 1'b0;
-        int_num_out0    <= `INT_SEL_WIDTH'd0;
-        int_num_out1    <= `INT_SEL_WIDTH'd0;
-        int_ack         <= `INT_SEL_WIDTH'd0;
-        cpu1_en         <= 1'b0;
-    end
-    else
+    always @(negedge clk)
     if(int_vec_r || syscall0 || syscall1)
     begin
         if(syscall0)

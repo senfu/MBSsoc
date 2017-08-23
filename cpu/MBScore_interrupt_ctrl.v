@@ -11,16 +11,20 @@ module MBScore_interrupt_ctrl(
     output reg                      int_jump
 );
 
-    reg                             int_vec_r;
+    reg [`INT_SEL_WIDTH-1:0]        int_vec_r;
 
     always @(int_vec)
     if(int_vec && !int_en_n)
     begin
-        int_vec_r   = int_vec;
-        stop        = 1'b1;
+        int_vec_r   <= int_vec;
+        stop        <= 1'b1;
     end 
     else
-    stop = 1'b0;
+    begin
+        int_vec_r   <= `INT_SEL_WIDTH'd0;
+        stop        <= 1'b0;
+    end
+    
 
     always @(posedge clk)
     if(stop)

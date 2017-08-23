@@ -13,12 +13,11 @@ module MBScore_alu(
     reg [`DATA_WIDTH-1:0]           alu_out_r;
 
     always @(negedge clk or negedge rst_n)
-    if(rst_n == 1'b0)
+    if(~rst_n)
     begin
         cf_r        <= 1'b0;
         alu_out_r   <= `DATA_WIDTH'b0;
     end
-	 else
     begin
         case(alu_op_type)
         `ALU_OP_ADD:    {cf_r,alu_out_r} <= {1'b0 + alu_in_a} + {1'b0 + alu_in_b};
